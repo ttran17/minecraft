@@ -6,12 +6,15 @@ import net.minecraft.creativetab.CreativeTabs;
 
 public final class CreativeTabFunBlock extends CreativeTabs
 {
-	private final int displayBlockID;
+	private int displayBlockID;
 	
-    CreativeTabFunBlock(String par2Str, int displayBlockID)
+    CreativeTabFunBlock(String par2Str)
     {
-        super(par2Str);
-        this.displayBlockID = displayBlockID;
+        super(CreativeTabs.getNextID(), par2Str);
+    }
+    
+    public void setTabIconItemIndex(int displayBlockID) {
+    	this.displayBlockID = displayBlockID;
     }
 
     @SideOnly(Side.CLIENT)

@@ -8,7 +8,6 @@ import java.util.TreeMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -25,6 +24,8 @@ public class FunBlockMods {
 	public static final String modid = "FunBlockMods";
 
 	public static final Map<String,Integer> blockIds = new TreeMap<String,Integer>();
+	
+	public static CreativeTabFunBlock creativeTabFunBlock = new CreativeTabFunBlock("Fun Blocks");
 	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
@@ -54,8 +55,7 @@ public class FunBlockMods {
 		keys.add("Ice Cream Block");
 		keys.add("Tons of Ice Cream");
 		keys.add("Peace Symbol");
-		
-		
+				
 		int defaultID = 1700;
 		for (String key : keys) {
 			int value = config.getBlock(key.replace(" ", ""), defaultID++).getInt();
@@ -63,22 +63,20 @@ public class FunBlockMods {
 		}
 
 		config.save();
+
+		creativeTabFunBlock.setTabIconItemIndex(blockIds.get("Leopard"));
 	}
 
 	@Init
 	public void load(FMLInitializationEvent event)
 	{    
-		CreativeTabs creativeTabFunBlock = new CreativeTabFunBlock("Fun Blocks", blockIds.get("Leopard"));
-		LanguageRegistry.instance().addStringLocalization(
-				"itemGroup." + creativeTabFunBlock.getTabLabel(), 
-				"en_US", 
-				creativeTabFunBlock.getTabLabel() );
+		LanguageRegistry.instance().addStringLocalization("itemGroup.Fun Blocks", "en_US", "Fun Blocks");
 		
 		for (Map.Entry<String, Integer> entry : blockIds.entrySet()) {
 			String key = entry.getKey();
 			int value = entry.getValue().intValue();
 
-			Block block = new FunBlock(value, Material.rock, modid, creativeTabFunBlock);
+			Block block = new FunBlock(value, Material.rock, modid);
 			block.setUnlocalizedName(key);
 	        GameRegistry.registerBlock(block, modid + key);       
 	        LanguageRegistry.addName(block, key);
