@@ -92,21 +92,21 @@ public class GuiScreenTransformer implements IClassTransformer {
 			mv.visitCode();
 			mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/input/Mouse", "getEventX", "()I");
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "axr", "g", "I");
+			mv.visitFieldInsn(GETFIELD, "axr", "h", "I");
 			mv.visitInsn(IMUL);
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "axr", "f", "Lnet/minecraft/client/Minecraft;");
+			mv.visitFieldInsn(GETFIELD, "axr", "g", "Lnet/minecraft/client/Minecraft;");
 			mv.visitFieldInsn(GETFIELD, "net/minecraft/client/Minecraft", "c", "I");
 			mv.visitInsn(IDIV);
 			mv.visitVarInsn(ISTORE, 1);
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "axr", "h", "I");
+			mv.visitFieldInsn(GETFIELD, "axr", "i", "I");
 			mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/input/Mouse", "getEventY", "()I");
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "axr", "h", "I");
+			mv.visitFieldInsn(GETFIELD, "axr", "i", "I");
 			mv.visitInsn(IMUL);
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "axr", "f", "Lnet/minecraft/client/Minecraft;");
+			mv.visitFieldInsn(GETFIELD, "axr", "g", "Lnet/minecraft/client/Minecraft;");
 			mv.visitFieldInsn(GETFIELD, "net/minecraft/client/Minecraft", "d", "I");
 			mv.visitInsn(IDIV);
 			mv.visitInsn(ISUB);
@@ -119,7 +119,7 @@ public class GuiScreenTransformer implements IClassTransformer {
 			mv.visitVarInsn(ISTORE, 4);
 			mv.visitInsn(DCONST_0);
 			mv.visitVarInsn(DSTORE, 5);
-			mv.visitFieldInsn(GETSTATIC, "bge", "a", "Lbge;");
+			mv.visitFieldInsn(GETSTATIC, "bgd", "a", "Lbgd;");
 			mv.visitVarInsn(ASTORE, 7);
 			mv.visitIntInsn(SIPUSH, 3042);
 			mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/opengl/GL11", "glEnable", "(I)V");
@@ -134,7 +134,7 @@ public class GuiScreenTransformer implements IClassTransformer {
 			mv.visitInsn(FCONST_1);
 			mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/opengl/GL11", "glColor4f", "(FFFF)V");
 			mv.visitVarInsn(ALOAD, 7);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "bge", "b", "()V");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "bgd", "b", "()V");
 			mv.visitVarInsn(ALOAD, 7);
 			mv.visitVarInsn(ILOAD, 1);
 			mv.visitInsn(I2D);
@@ -147,7 +147,7 @@ public class GuiScreenTransformer implements IClassTransformer {
 			mv.visitInsn(I2D);
 			mv.visitInsn(DSUB);
 			mv.visitVarInsn(DLOAD, 5);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "bge", "a", "(DDD)V");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "bgd", "a", "(DDD)V");
 			mv.visitVarInsn(ALOAD, 7);
 			mv.visitVarInsn(ILOAD, 1);
 			mv.visitInsn(I2D);
@@ -160,7 +160,7 @@ public class GuiScreenTransformer implements IClassTransformer {
 			mv.visitInsn(I2D);
 			mv.visitInsn(DSUB);
 			mv.visitVarInsn(DLOAD, 5);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "bge", "a", "(DDD)V");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "bgd", "a", "(DDD)V");
 			mv.visitVarInsn(ALOAD, 7);
 			mv.visitVarInsn(ILOAD, 1);
 			mv.visitInsn(I2D);
@@ -173,7 +173,7 @@ public class GuiScreenTransformer implements IClassTransformer {
 			mv.visitInsn(I2D);
 			mv.visitInsn(DADD);
 			mv.visitVarInsn(DLOAD, 5);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "bge", "a", "(DDD)V");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "bgd", "a", "(DDD)V");
 			mv.visitVarInsn(ALOAD, 7);
 			mv.visitVarInsn(ILOAD, 1);
 			mv.visitInsn(I2D);
@@ -186,7 +186,7 @@ public class GuiScreenTransformer implements IClassTransformer {
 			mv.visitInsn(I2D);
 			mv.visitInsn(DADD);
 			mv.visitVarInsn(DLOAD, 5);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "bge", "a", "(DDD)V");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "bgd", "a", "(DDD)V");
 			mv.visitVarInsn(ALOAD, 7);
 			mv.visitVarInsn(ILOAD, 1);
 			mv.visitInsn(I2D);
@@ -199,7 +199,7 @@ public class GuiScreenTransformer implements IClassTransformer {
 			mv.visitInsn(I2D);
 			mv.visitInsn(DSUB);
 			mv.visitVarInsn(DLOAD, 5);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "bge", "a", "(DDD)V");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "bgd", "a", "(DDD)V");
 			mv.visitVarInsn(ALOAD, 7);
 			mv.visitVarInsn(ILOAD, 1);
 			mv.visitInsn(I2D);
@@ -212,7 +212,7 @@ public class GuiScreenTransformer implements IClassTransformer {
 			mv.visitInsn(I2D);
 			mv.visitInsn(DSUB);
 			mv.visitVarInsn(DLOAD, 5);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "bge", "a", "(DDD)V");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "bgd", "a", "(DDD)V");
 			mv.visitVarInsn(ALOAD, 7);
 			mv.visitVarInsn(ILOAD, 1);
 			mv.visitInsn(I2D);
@@ -225,7 +225,7 @@ public class GuiScreenTransformer implements IClassTransformer {
 			mv.visitInsn(I2D);
 			mv.visitInsn(DADD);
 			mv.visitVarInsn(DLOAD, 5);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "bge", "a", "(DDD)V");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "bgd", "a", "(DDD)V");
 			mv.visitVarInsn(ALOAD, 7);
 			mv.visitVarInsn(ILOAD, 1);
 			mv.visitInsn(I2D);
@@ -238,9 +238,9 @@ public class GuiScreenTransformer implements IClassTransformer {
 			mv.visitInsn(I2D);
 			mv.visitInsn(DADD);
 			mv.visitVarInsn(DLOAD, 5);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "bge", "a", "(DDD)V");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "bgd", "a", "(DDD)V");
 			mv.visitVarInsn(ALOAD, 7);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "bge", "a", "()I");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "bgd", "a", "()I");
 			mv.visitInsn(POP);
 			mv.visitIntInsn(SIPUSH, 3553);
 			mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/opengl/GL11", "glEnable", "(I)V");
@@ -267,7 +267,7 @@ public class GuiScreenTransformer implements IClassTransformer {
 	    public void visitInsn(int opcode) {
 	        if (opcode == RETURN) {
 	        	mv.visitVarInsn(ALOAD, 0);
-	        	mv.visitFieldInsn(GETFIELD, "axr", "f", "Lnet/minecraft/client/Minecraft;");
+	        	mv.visitFieldInsn(GETFIELD, "axr", "g", "Lnet/minecraft/client/Minecraft;");
 	        	mv.visitFieldInsn(GETFIELD, "net/minecraft/client/Minecraft", "virtualbox", "Z");
 	        	Label l2_a = new Label();
 	        	mv.visitJumpInsn(IFEQ, l2_a);

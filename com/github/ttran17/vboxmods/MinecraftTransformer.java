@@ -72,9 +72,9 @@ public class MinecraftTransformer implements IClassTransformer {
 	        if (i != 0 && (!virtualbox || (virtualbox && i != 1280)))
 	        {
 	            String s1 = GLU.gluErrorString(i);
-	            this.getLogAgent().func_98232_c("########## GL ERROR ##########");
-	            this.getLogAgent().func_98232_c("@ " + par1Str);
-	            this.getLogAgent().func_98232_c(i + ": " + s1);
+	            this.getLogAgent().logSevere("########## GL ERROR ##########");
+	            this.getLogAgent().logSevere("@ " + par1Str);
+	            this.getLogAgent().logSevere(i + ": " + s1);
 	        }
         */
 		public void newMethod(MethodVisitor mv) {
@@ -200,7 +200,7 @@ public class MinecraftTransformer implements IClassTransformer {
 				mv.visitMethodInsn(INVOKEINTERFACE, "ku", "a", "(Ljava/lang/String;)V");
 				mv.visitVarInsn(ALOAD, 0);
 				mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/client/Minecraft", "al", "()Lku;");
-				mv.visitLdcInsn("Judging from OpenGl vendor and renderer: setting virtualbox = true!");
+				mv.visitLdcInsn("Judging from OpenGl vendor and/or renderer: setting virtualbox = true!");
 				mv.visitMethodInsn(INVOKEINTERFACE, "ku", "a", "(Ljava/lang/String;)V");
 				mv.visitVarInsn(ALOAD, 0);
 				mv.visitInsn(ICONST_1);
