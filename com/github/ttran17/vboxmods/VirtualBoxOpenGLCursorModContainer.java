@@ -12,7 +12,7 @@ import cpw.mods.fml.common.versioning.VersionRange;
 
 public class VirtualBoxOpenGLCursorModContainer extends DummyModContainer {
 
-	private static final String mcVersionRange = "[1.5.2]";
+	private static final String mcVersionRange = "[1.4.7]";
 
 	public VirtualBoxOpenGLCursorModContainer() {
 		super(new ModMetadata());

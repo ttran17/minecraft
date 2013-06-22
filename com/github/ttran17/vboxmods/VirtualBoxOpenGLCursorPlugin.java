@@ -5,10 +5,8 @@ import java.util.Map;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;;
 
 @TransformerExclusions(value={"com.github.ttran17.vboxmods"})
-@MCVersion(value="")
 public class VirtualBoxOpenGLCursorPlugin implements IFMLLoadingPlugin {
 
 	public static File location;
