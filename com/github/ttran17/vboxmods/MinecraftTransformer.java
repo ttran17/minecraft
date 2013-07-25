@@ -18,12 +18,12 @@ import cpw.mods.fml.relauncher.FMLRelaunchLog;
 
 public class MinecraftTransformer implements IClassTransformer {
 
-	public final String className = "net.minecraft.client.Minecraft";
+	public final String className = "ats";
 	
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
 		if (className.equals(name)) {
-			FMLRelaunchLog.log(Level.INFO,"Modifying " + className);
+			FMLRelaunchLog.log(Level.INFO,"Modifying " + name + " which is " + transformedName);
 			ClassReader cr = new ClassReader(bytes);
 			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 			MinecraftVisitor ma = new MinecraftVisitor(Opcodes.ASM4, cw);
@@ -34,10 +34,10 @@ public class MinecraftTransformer implements IClassTransformer {
 	}
 	
 	public class MinecraftVisitor extends ClassVisitor {
-		public final String name = "a"; //"startGame";
+		public final String name = "O"; //"startGame";
 		public final String desc = "()V";	
 		
-		public final String name2 = "d"; //"checkGLError";
+		public final String name2 = "c"; //"checkGLError";
 		public final String desc2 = "(Ljava/lang/String;)V";
 		
 		public MinecraftVisitor(int api, ClassWriter cv) {
@@ -59,7 +59,7 @@ public class MinecraftTransformer implements IClassTransformer {
 		}
 		
 		@Override
-	    // public boolean virtualbox = false;
+	    /* public boolean virtualbox = false; */
 		public void visitEnd() {
 			FMLRelaunchLog.log(Level.FINE,"Visiting virtualBox field ...");
 			FieldVisitor fv = cv.visitField(ACC_PUBLIC, "virtualbox", "Z", null, null);
@@ -67,6 +67,7 @@ public class MinecraftTransformer implements IClassTransformer {
 			cv.visitEnd();
 		}
 		
+		/* Gets rid of annoying OpenGL Error 1280 message  */
 		/* 
 			int i = GL11.glGetError();
 	        
@@ -83,29 +84,29 @@ public class MinecraftTransformer implements IClassTransformer {
 			mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/opengl/GL11", "glGetError", "()I");
 			mv.visitVarInsn(ISTORE, 2);
 			mv.visitVarInsn(ILOAD, 2);
-			Label l0 = new Label();
-			mv.visitJumpInsn(IFEQ, l0);
+			Label l0_a = new Label();
+			mv.visitJumpInsn(IFEQ, l0_a);
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "net/minecraft/client/Minecraft", "virtualbox", "Z");
-			Label l1 = new Label();
-			mv.visitJumpInsn(IFEQ, l1);
+			mv.visitFieldInsn(GETFIELD, "ats", "virtualbox", "Z");
+			Label l1_a = new Label();
+			mv.visitJumpInsn(IFEQ, l1_a);
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "net/minecraft/client/Minecraft", "virtualbox", "Z");
-			mv.visitJumpInsn(IFEQ, l0);
+			mv.visitFieldInsn(GETFIELD, "ats", "virtualbox", "Z");
+			mv.visitJumpInsn(IFEQ, l0_a);
 			mv.visitVarInsn(ILOAD, 2);
 			mv.visitIntInsn(SIPUSH, 1280);
-			mv.visitJumpInsn(IF_ICMPEQ, l0);
-			mv.visitLabel(l1);
+			mv.visitJumpInsn(IF_ICMPEQ, l0_a);
+			mv.visitLabel(l1_a);
 			mv.visitFrame(Opcodes.F_APPEND,1, new Object[] {Opcodes.INTEGER}, 0, null);
 			mv.visitVarInsn(ILOAD, 2);
 			mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/util/glu/GLU", "gluErrorString", "(I)Ljava/lang/String;");
 			mv.visitVarInsn(ASTORE, 3);
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/client/Minecraft", "al", "()Lku;");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "ats", "an", "()Llo;");
 			mv.visitLdcInsn("########## GL ERROR ##########");
-			mv.visitMethodInsn(INVOKEINTERFACE, "ku", "c", "(Ljava/lang/String;)V");
+			mv.visitMethodInsn(INVOKEINTERFACE, "lo", "c", "(Ljava/lang/String;)V");
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/client/Minecraft", "al", "()Lku;");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "ats", "an", "()Llo;");
 			mv.visitTypeInsn(NEW, "java/lang/StringBuilder");
 			mv.visitInsn(DUP);
 			mv.visitMethodInsn(INVOKESPECIAL, "java/lang/StringBuilder", "<init>", "()V");
@@ -114,9 +115,9 @@ public class MinecraftTransformer implements IClassTransformer {
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;");
-			mv.visitMethodInsn(INVOKEINTERFACE, "ku", "c", "(Ljava/lang/String;)V");
+			mv.visitMethodInsn(INVOKEINTERFACE, "lo", "c", "(Ljava/lang/String;)V");
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/client/Minecraft", "al", "()Lku;");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "ats", "an", "()Llo;");
 			mv.visitTypeInsn(NEW, "java/lang/StringBuilder");
 			mv.visitInsn(DUP);
 			mv.visitMethodInsn(INVOKESPECIAL, "java/lang/StringBuilder", "<init>", "()V");
@@ -127,8 +128,8 @@ public class MinecraftTransformer implements IClassTransformer {
 			mv.visitVarInsn(ALOAD, 3);
 			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;");
-			mv.visitMethodInsn(INVOKEINTERFACE, "ku", "c", "(Ljava/lang/String;)V");
-			mv.visitLabel(l0);
+			mv.visitMethodInsn(INVOKEINTERFACE, "lo", "c", "(Ljava/lang/String;)V");
+			mv.visitLabel(l0_a);
 			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
 			mv.visitInsn(RETURN);
 			mv.visitMaxs(3, 4);
@@ -137,7 +138,7 @@ public class MinecraftTransformer implements IClassTransformer {
 	}
 	
 	public class StartGameVisitor extends MethodVisitor {
-		public final String owner = "bkn"; //"net/minecraft/client/renderer/OpenGlHelper";
+		public final String owner = "blx"; //"net/minecraft/client/renderer/OpenGlHelper";
 		public final String name = "a"; //"initializeTextures";
 		public final String desc = "()V";
 
@@ -174,7 +175,7 @@ public class MinecraftTransformer implements IClassTransformer {
 				mv.visitLabel(l16_a);
 				mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
 				mv.visitVarInsn(ALOAD, 0);
-				mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/client/Minecraft", "al", "()Lku;");
+				mv.visitMethodInsn(INVOKEVIRTUAL, "ats", "an", "()Llo;");
 				mv.visitTypeInsn(NEW, "java/lang/StringBuilder");
 				mv.visitInsn(DUP);
 				mv.visitMethodInsn(INVOKESPECIAL, "java/lang/StringBuilder", "<init>", "()V");
@@ -185,9 +186,9 @@ public class MinecraftTransformer implements IClassTransformer {
 				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "trim", "()Ljava/lang/String;");
 				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;");
 				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;");
-				mv.visitMethodInsn(INVOKEINTERFACE, "ku", "a", "(Ljava/lang/String;)V");
+				mv.visitMethodInsn(INVOKEINTERFACE, "lo", "a", "(Ljava/lang/String;)V");
 				mv.visitVarInsn(ALOAD, 0);
-				mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/client/Minecraft", "al", "()Lku;");
+				mv.visitMethodInsn(INVOKEVIRTUAL, "ats", "an", "()Llo;");
 				mv.visitTypeInsn(NEW, "java/lang/StringBuilder");
 				mv.visitInsn(DUP);
 				mv.visitMethodInsn(INVOKESPECIAL, "java/lang/StringBuilder", "<init>", "()V");
@@ -198,18 +199,18 @@ public class MinecraftTransformer implements IClassTransformer {
 				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "trim", "()Ljava/lang/String;");
 				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;");
 				mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;");
-				mv.visitMethodInsn(INVOKEINTERFACE, "ku", "a", "(Ljava/lang/String;)V");
+				mv.visitMethodInsn(INVOKEINTERFACE, "lo", "a", "(Ljava/lang/String;)V");
 				mv.visitVarInsn(ALOAD, 0);
-				mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/client/Minecraft", "al", "()Lku;");
-				mv.visitLdcInsn("Judging from OpenGl vendor and/or renderer: setting virtualbox = true!");
-				mv.visitMethodInsn(INVOKEINTERFACE, "ku", "a", "(Ljava/lang/String;)V");
+				mv.visitMethodInsn(INVOKEVIRTUAL, "ats", "an", "()Llo;");
+				mv.visitLdcInsn("Judging from OpenGl vendor or renderer: setting virtualbox = true!");
+				mv.visitMethodInsn(INVOKEINTERFACE, "lo", "a", "(Ljava/lang/String;)V");
 				mv.visitVarInsn(ALOAD, 0);
 				mv.visitInsn(ICONST_1);
-				mv.visitFieldInsn(PUTFIELD, "net/minecraft/client/Minecraft", "virtualbox", "Z");
+				mv.visitFieldInsn(PUTFIELD, "ats", "virtualbox", "Z");
 				mv.visitLabel(l17_a);
 				mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
 			}
 			mv.visitMethodInsn(opcode, owner, name, desc);
 		}
-	}	
+	}
 }

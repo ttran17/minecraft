@@ -13,8 +13,8 @@ public class ASMUtils {
 	public static void main(String[] args) {
         ClassReader cr;
 		try {
-			String base = "/home/ttran/Projects/forge-1.4.7/mcp/reobf/minecraft/";
-			cr = new ClassReader(new FileInputStream(base + "hn.class"));
+			String base = "/home/ttran/Projects/forge-9.10.0.789/mcp/reobf/minecraft/";
+			cr = new ClassReader(new FileInputStream(base + "awb.class"));
 //			cr = new ClassReader(new FileInputStream("axr.class"));
 	        cr.accept(new TraceClassVisitor(null, new ASMifier(), new PrintWriter(
 	                System.out)),  ClassReader.SKIP_DEBUG);
