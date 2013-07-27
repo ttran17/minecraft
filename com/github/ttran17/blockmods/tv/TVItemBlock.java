@@ -10,19 +10,15 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class TVItem extends Item {
+public class TVItemBlock extends ItemBlock {
 	
-	public final int blockID;
-	public final int dummyBlockID;
-
-	public TVItem(int itemID, int blockID, int dummyBlockID) {
-		super(itemID);
-		this.blockID = blockID;
-		this.dummyBlockID = dummyBlockID;
+	public TVItemBlock(int par1) {
+		super(par1);
 	}
 
 	@Override
@@ -32,14 +28,14 @@ public class TVItem extends Item {
      */
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float par8, float par9, float par10)
 	{
-		Block block = Block.blocksList[this.blockID];
+		Block block = Block.blocksList[this.getBlockID()];
 		int yaw = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
 
 		if (!canPlaceBlockAt(world, block, x, y+1, z, yaw)) {
 			return false;
 		}
 				
-		world.setBlock(x, y+1, z, this.blockID, 0, 2);
+		world.setBlock(x, y+1, z, this.getBlockID(), 0, 2);
 		block.onBlockPlacedBy(world, x, y+1, z, player, stack);
 
 		// Now place dummy blocks
@@ -99,12 +95,12 @@ public class TVItem extends Item {
 	}
 	
 	private void placeDummyBlocks(World world, int x, int y, int z, int px, int py, int pz) {
-		world.setBlock(x, y, z, this.dummyBlockID, 0, 2);
+		world.setBlock(x, y, z, TVBlockContainer.getTvBlockContainerID(), 0, 2);
 		TVTileEntity tileEntity = (TVTileEntity) world.getBlockTileEntity(x, y, z);
 		if (tileEntity != null) {
-			tileEntity.primary_x = px;
-			tileEntity.primary_y = py;
-			tileEntity.primary_z = pz;			
+			tileEntity.tv_x = px;
+			tileEntity.tv_y = py;
+			tileEntity.tv_z = pz;			
 		}
 	}
 }

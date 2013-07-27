@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.github.ttran17.blockmods.CreativeTabBlockMods;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemBlockWithMetadata;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -18,13 +22,11 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = CrazyBlocksMod.modid, name = "Crazy Blocks Mod", version = "1.0")
+@Mod(modid = CrazyBlocksMod.modid, name = "Crazy Blocks Mod", version = "2.0")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class CrazyBlocksMod {
 	public static final String modid = "CrazyBlocksMod";
-	
-	public static final Map<String,Integer> blockIds = new TreeMap<String,Integer>();
-	
+
 	public static final CreativeTabBlockMods creativeTab = new CreativeTabBlockMods("Crazy Blocks");
 	
 	/**
@@ -32,57 +34,32 @@ public class CrazyBlocksMod {
 	 */
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		// Looks for file CrazyBlocksMod.cfg in .minecraft/config/
-		// Creates file it it doesn't exist.
+		// Looks for file CrazyBlocksMod.cfg -- creates file it it doesn't exist.
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 
 		config.load();
-
-		// Once you choose a particular ordering, there's no going back ...
-		// unless you edit the ids by hand using the config file.
-		List<String> keys = new ArrayList<String>();
-		keys.add("Leopard");
-		keys.add("Disco Zebra");
-		keys.add("Blue Tiger");
-		keys.add("Blue Paw Print");
-		keys.add("Siamese Cat");
-		keys.add("Horse");
-		keys.add("Kylie");
-		keys.add("Creeper");
-		keys.add("Magma Cube");
-		keys.add("Skeleton in Tuxedo");
-		keys.add("Blaze");
-		keys.add("No Boys Allowed");
-		keys.add("CM Block");
-		keys.add("Stop Sitting on Me");
-		keys.add("Ice Cream Block");
-		keys.add("Tons of Ice Cream");
-		keys.add("Peace Symbol");
-		keys.add("Eskimo Dog");
-		keys.add("Fireworks");
-		keys.add("Gerbil Block");
-		keys.add("Blue Balloons");
-		keys.add("Candy Corn");
-				
+		
+		// Order matters. Or you can mess with the config file.
 		int defaultID = 1700;
-		for (String key : keys) {
-			int value = config.getBlock(key.replace(" ", ""), defaultID++).getInt();
-			blockIds.put(key, value);
-		}
-
+		int displayBlockID = register(config, defaultID++, CrazyBlocks1.class, CrazyBlocks1.crazyTypes);
+		register(config, defaultID++, CrazyBlocks2.class, CrazyBlocks2.crazyTypes);
+		
 		config.save();
-
-		for (Map.Entry<String, Integer> entry : blockIds.entrySet()) {
-			String key = entry.getKey();
-			int value = entry.getValue().intValue();
-
-			Block block = new CrazyBlock(value, Material.rock, modid);
-			block.setUnlocalizedName(key);
-	        GameRegistry.registerBlock(block, modid + key);       
-	        LanguageRegistry.addName(block, key);
-		}
-   
-		creativeTab.setTabIconItemIndex(blockIds.get("Leopard"));
+		
+		creativeTab.setTabIconItemIndex(displayBlockID);
 		LanguageRegistry.instance().addStringLocalization("itemGroup.Crazy Blocks", "en_US", "Crazy Blocks");
+	}
+	
+	private int register(Configuration config, int defaultID, Class<? extends ItemBlockWithMetadata> clazz, String[] crazyTypes) {
+		int value = config.getBlock(clazz.getSimpleName(),defaultID).getInt();
+		CrazyMultiBlock cmb = new CrazyMultiBlock(value, Material.rock, modid, crazyTypes);
+		cmb.setUnlocalizedName(clazz.getSimpleName());
+		cmb.setCreativeTab(creativeTab);
+		GameRegistry.registerBlock(cmb, clazz, modid + "." + clazz.getSimpleName());		
+		for (Pair<ItemStack,String> pair : cmb.getNamedItemStacks()) {
+			LanguageRegistry.addName(pair.getLeft(), pair.getRight());
+		}
+		
+		return value;
 	}
 }

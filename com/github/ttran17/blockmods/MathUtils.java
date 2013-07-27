@@ -132,7 +132,7 @@ public class MathUtils {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static double[][][] getModelByYaw(double[][] canonical) {
+	public static double[][][] getModelYawBasedOnCanonical(double[][] canonical) {
 		double[][][] yaw = new double[4][][];
 		
 		yaw[YAW.South.index] = MathUtils.rotateBlock(canonical, YAW.South);

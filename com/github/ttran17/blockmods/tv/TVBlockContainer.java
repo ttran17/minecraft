@@ -13,6 +13,23 @@ import net.minecraft.world.World;
 
 public class TVBlockContainer extends BlockContainer {
 
+	private static int tvBlockContainerID = -1;
+	
+	public static void setDummyID(TVBlockContainer block) {
+		tvBlockContainerID = block.blockID;
+	}
+	
+	/** 
+	 * Must call setDummyID() before calling getTvBlockContainerID()
+	 * @return
+	 */
+	public static int getTvBlockContainerID() {
+		if (tvBlockContainerID == -1) {
+			throw new IllegalStateException("Must call TVBlockContainer.setDummyID() first!");
+		}
+		return tvBlockContainerID;
+	}
+	
 	@SideOnly(Side.CLIENT)
 	public static final int renderType = RenderingRegistry.getNextAvailableRenderId();
 	
@@ -28,13 +45,12 @@ public class TVBlockContainer extends BlockContainer {
 	{      
 		TVTileEntity tileEntity = (TVTileEntity) world.getBlockTileEntity(x, y, z);
 		if (tileEntity != null){
-			//Actually destroys primary block.
-			world.destroyBlock(tileEntity.primary_x, tileEntity.primary_y, tileEntity.primary_z, false);
-			//Forces removing tile entity from primary block coordinates,
-			//cause sometimes minecraft forgets to do that.
-			world.removeBlockTileEntity(tileEntity.primary_x, tileEntity.primary_y, tileEntity.primary_z);
+			//Destroy the tv block
+			world.destroyBlock(tileEntity.tv_x, tileEntity.tv_y, tileEntity.tv_z, false);
+			//In our case this is most likely unnecessary since our primary block doesn'thave a tile entity ...
+			world.removeBlockTileEntity(tileEntity.tv_x, tileEntity.tv_y, tileEntity.tv_z);
 		}
-		//Same as above, but for the gag block tile entity.
+		//Same as above, but for the TVTileEntity at the location of the TVBlockContainer
 		world.removeBlockTileEntity(x, y, z);
     }
 	
@@ -46,33 +62,29 @@ public class TVBlockContainer extends BlockContainer {
 	public void onNeighborBlockChange(World world, int x, int y, int z, int par5) {
 		TVTileEntity tileEntity = (TVTileEntity) world.getBlockTileEntity(x, y, z);
 		if (tileEntity != null){
-			//No need to check if block's Id matches the Id of our primary block, 
-			//because if a player want to change a block, he needs to break it first, 
-			//and in this case block will be set to Air (Id = 0)
-			if(world.getBlockId(tileEntity.primary_x, tileEntity.primary_y, tileEntity.primary_z) == 0){
+			// If the tv block is gone then so are we ...
+			if(world.getBlockId(tileEntity.tv_x, tileEntity.tv_y, tileEntity.tv_z) == 0){
 				world.destroyBlock(x, y, z, false);
 				world.removeBlockTileEntity(x, y, z);
 			}
-		}
+		} 
 	}
 	
 	@Override
     @SideOnly(Side.CLIENT)
     /**
      * Returns the bounding box of the wired rectangular prism to render.
+     * <p>
+     * In this case it returns the prism for the TV -- hence the primary coords are used.
      */
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
     {
 		TVTileEntity tileEntity = (TVTileEntity) world.getBlockTileEntity(x, y, z);
 		if (tileEntity != null) {
-			int px = tileEntity.primary_x;
-			int py = tileEntity.primary_y;
-			int pz = tileEntity.primary_z;
-			
-			int blockID = world.getBlockId(px, py, pz);
+			int blockID = world.getBlockId(tileEntity.tv_x, tileEntity.tv_y, tileEntity.tv_z);
 			Block block = Block.blocksList[blockID];
 			if (block != null && block instanceof TVBlock) {
-				double[] bound = ((TVBlock) block).getBlockBoundsBasedOnState(world, px, py, pz);
+				double[] bound = ((TVBlock) block).getBlockBoundsBasedOnState(world, tileEntity.tv_x, tileEntity.tv_y, tileEntity.tv_z);
 
 				this.minX = bound[0];
 				this.minY = bound[1];
@@ -81,7 +93,7 @@ public class TVBlockContainer extends BlockContainer {
 				this.maxY = bound[4];
 				this.maxZ = bound[5];
 
-				return super.getSelectedBoundingBoxFromPool(world, px, py, pz);
+				return super.getSelectedBoundingBoxFromPool(world, tileEntity.tv_x, tileEntity.tv_y, tileEntity.tv_z);
 			}
 		}
         return super.getSelectedBoundingBoxFromPool(world, x, y, z);
@@ -98,6 +110,9 @@ public class TVBlockContainer extends BlockContainer {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
+	/**
+	 * There is nothing that matches this renderType so this block is never actually rendered.
+	 */
 	public int getRenderType() {
 		return renderType;
 	}

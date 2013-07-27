@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 
 public class CrazyBlock extends Block {
 	
-	protected final String modid;
+	public final String modid;
 
 	public CrazyBlock(int par1, Material par2Material, String modid) {
 		super(par1, par2Material);

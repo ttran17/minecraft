@@ -49,19 +49,12 @@ public class TVBlocksMod {
 		List<String> keys = new ArrayList<String>();
 		keys.add("Dummy Block");
 		keys.add("The Garfield Show");
+		keys.add("Scooby Doo");
 				
 		int defaultBlockIDs = 1800;
-		int defaultItemIDs = 5000;
 		for (String key : keys) {
 			int blockID = config.getBlock(key.replace(" ", ""), defaultBlockIDs++).getInt();
 			blockIDs.put(key, blockID);
-			
-			if (key.equalsIgnoreCase("Dummy Block")) {
-				continue;
-			}
-			
-			int itemID = config.getItem(key.replace(" ", ""), defaultItemIDs++).getInt();
-			itemIDs.put(key, itemID);
 		}
 
 		config.save();
@@ -71,19 +64,16 @@ public class TVBlocksMod {
 			int blockID = blockIDs.get(key);
 			if (key.equalsIgnoreCase("Dummy Block")) {
 				dummyBlockID = blockID;
-				Block block = (new TVBlockContainer(dummyBlockID, Material.rock)).func_111022_d(modid.toLowerCase() + ":TVFrame");
+				TVBlockContainer block = new TVBlockContainer(dummyBlockID, Material.rock);
+				block.func_111022_d(modid.toLowerCase() + ":TVFrame");
+				TVBlockContainer.setDummyID(block);
 		        GameRegistry.registerBlock(block, modid + key);    
-		        GameRegistry.registerTileEntity(TVTileEntity.class, modid + key);
-		        LanguageRegistry.addName(block, key);
+		        GameRegistry.registerTileEntity(TVTileEntity.class, modid + "." + key);
 				continue;
 			}
-			Block block = (new TVBlock(blockID, Material.rock, modid)).setUnlocalizedName(key);
-	        GameRegistry.registerBlock(block, modid + key);       
+			Block block = (new TVBlock(blockID, Material.rock, modid)).setUnlocalizedName(key).setCreativeTab(creativeTab);
+	        GameRegistry.registerBlock(block, TVItemBlock.class, modid + "." + key);       
 	        LanguageRegistry.addName(block, key);
-
-	        int itemID = itemIDs.get(key);
-	        Item item = (new TVItem(itemID, blockID, dummyBlockID)).setCreativeTab(creativeTab).setUnlocalizedName(key).func_111206_d(modid.toLowerCase() + ":" + key);
-	        LanguageRegistry.addName(item, key);
 		}
 
 		creativeTab.setTabIconItemIndex(blockIDs.get("The Garfield Show"));

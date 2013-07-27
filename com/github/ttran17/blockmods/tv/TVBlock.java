@@ -26,7 +26,7 @@ public class TVBlock extends DirectionalBlock {
 	@SideOnly(Side.CLIENT)
 	public static final double[][] canonical = new double[][]{
 		// Base of TV 
-		{0.3, 0.0, 0.4, 0.7, 0.05, 0.65},
+		{0.2, 0.0, 0.4, 0.8, 0.05, 0.65},
 		{0.475, 0.05, 0.475, 0.525, 0.075, 0.525},
 
 		// Frame bottom
@@ -49,7 +49,7 @@ public class TVBlock extends DirectionalBlock {
 	};
 
 	@SideOnly(Side.CLIENT)
-	public static final double[][][] yaw = MathUtils.getModelByYaw(canonical);
+	public static final double[][][] yaw = MathUtils.getModelYawBasedOnCanonical(canonical);
 	
 	@SideOnly(Side.CLIENT)
 	public static final double[][] bounds = MathUtils.getBoundsBasedOnYaw(yaw);
@@ -120,6 +120,17 @@ public class TVBlock extends DirectionalBlock {
 	{
 		return 1;
 	}
+	
+	@Override
+    /**
+     * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
+     */
+    public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
+    {
+        int l = par1World.getBlockId(par2, par3, par4);
+        Block block = Block.blocksList[l];
+        return block == null || block.blockID == 0;
+    }
 	
 	@SideOnly(Side.CLIENT)
 	/** 
