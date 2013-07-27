@@ -94,13 +94,13 @@ public class TVItemBlock extends ItemBlock {
         return true;
 	}
 	
-	private void placeDummyBlocks(World world, int x, int y, int z, int px, int py, int pz) {
+	private void placeDummyBlocks(World world, int x, int y, int z, int tv_x, int tv_y, int tv_z) {
 		world.setBlock(x, y, z, TVBlockContainer.getTvBlockContainerID(), 0, 2);
 		TVTileEntity tileEntity = (TVTileEntity) world.getBlockTileEntity(x, y, z);
 		if (tileEntity != null) {
-			tileEntity.tv_x = px;
-			tileEntity.tv_y = py;
-			tileEntity.tv_z = pz;			
+			tileEntity.tv_x = tv_x;
+			tileEntity.tv_y = tv_y;
+			tileEntity.tv_z = tv_z;			
 		}
 	}
 }
