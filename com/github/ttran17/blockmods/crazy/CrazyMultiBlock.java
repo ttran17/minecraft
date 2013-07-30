@@ -22,14 +22,14 @@ public class CrazyMultiBlock extends Block {
 	private final String[] crazyTypes;
 
     @SideOnly(Side.CLIENT)
-    private final Icon[] iconArray;
+    private Icon[] iconArray;
 
     public CrazyMultiBlock(int par1, Material material, String modid, String[] crazyTypes) 
     {
         super(par1, material);
         this.modid = modid;
         this.crazyTypes = crazyTypes;
-        this.iconArray = new Icon[crazyTypes.length];
+        
     }
 
     @Override
@@ -69,7 +69,6 @@ public class CrazyMultiBlock extends Block {
         }
     }
     
-    @SideOnly(Side.CLIENT)
     /**
      * Like getSubBlocks() but returns the ItemStacks paired with a name
      */
@@ -91,6 +90,8 @@ public class CrazyMultiBlock extends Block {
      */
     public void registerIcons(IconRegister par1IconRegister)
     {
+    	this.iconArray = new Icon[crazyTypes.length];
+    	
         for (int i = 0; i < this.iconArray.length; ++i)
         {
             this.iconArray[i] = par1IconRegister.registerIcon(modid.toLowerCase() + ":" + crazyTypes[i]);
