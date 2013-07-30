@@ -131,7 +131,6 @@ public class MathUtils {
 		}
 	}
 	
-	@SideOnly(Side.CLIENT)
 	public static double[][][] getModelYawBasedOnCanonical(double[][] canonical) {
 		double[][][] yaw = new double[4][][];
 		
@@ -143,7 +142,6 @@ public class MathUtils {
 		return yaw;
 	}
 	
-	@SideOnly(Side.CLIENT)
 	public static double[][] getBoundsBasedOnYaw(double[][][] yaw) {
 		double[][] bounds = new double[4][6];
 		for (int i = 0; i < 4; i++) {

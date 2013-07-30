@@ -12,16 +12,20 @@ import net.minecraftforge.common.Configuration;
 
 import com.github.ttran17.blockmods.BlockRenderer;
 import com.github.ttran17.blockmods.CreativeTabBlockMods;
+import com.github.ttran17.blockmods.RenderingProxy;
 import com.github.ttran17.blockmods.crazy.CrazyBlock;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 
 @Mod(modid = TVBlocksMod.modid, name = "TV Blocks Mod", version = "1.0")
@@ -29,14 +33,14 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 public class TVBlocksMod {
 	public static final String modid = "TVBlocksMod";
 	
-	public static final CreativeTabBlockMods creativeTab = new CreativeTabBlockMods("TVs");
+	@SidedProxy(clientSide="com.github.ttran17.blockmods.ClientRenderingProxy",serverSide="com.github.ttran17.blockmods.RenderingProxy")
+	public static RenderingProxy renderingProxy;
 	
-	public static final BlockRenderer renderer = new BlockRenderer();
+	public static final CreativeTabBlockMods creativeTab = new CreativeTabBlockMods("TVs");
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		Map<String,Integer> blockIDs = new TreeMap<String,Integer>();
-		Map<String,Integer> itemIDs = new TreeMap<String,Integer>();
 		
 		// Looks for file TVBlocksMod.cfg in .minecraft/config/
 		// Creates file it it doesn't exist.
@@ -83,6 +87,7 @@ public class TVBlocksMod {
 	@EventHandler
 	public void load(FMLInitializationEvent event)
 	{    				
-		RenderingRegistry.registerBlockHandler(TVBlock.renderType, renderer);
+		renderingProxy.registerRenderers();
 	}
+
 }

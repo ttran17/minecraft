@@ -20,10 +20,6 @@ import net.minecraft.world.World;
 
 public class TVBlock extends DirectionalBlock {
 	
-	@SideOnly(Side.CLIENT)
-	public static final int renderType = RenderingRegistry.getNextAvailableRenderId();
-
-	@SideOnly(Side.CLIENT)
 	public static final double[][] canonical = new double[][]{
 		// Base of TV 
 		{0.2, 0.0, 0.4, 0.8, 0.05, 0.65},
@@ -48,12 +44,12 @@ public class TVBlock extends DirectionalBlock {
 		{-0.95, 0.125, 0.50, 1.95, 1.95, 0.55}
 	};
 
-	@SideOnly(Side.CLIENT)
 	public static final double[][][] yaw = MathUtils.getModelYawBasedOnCanonical(canonical);
 	
-	@SideOnly(Side.CLIENT)
 	public static final double[][] bounds = MathUtils.getBoundsBasedOnYaw(yaw);
 	
+	@SideOnly(Side.CLIENT)
+	public static int renderType;
 
 	@SideOnly(Side.CLIENT)
 	protected Icon tvShowIcon;
@@ -118,7 +114,7 @@ public class TVBlock extends DirectionalBlock {
 	 */
 	public int getRenderBlockPass()
 	{
-		return 1;
+		return 0;
 	}
 	
 	@Override

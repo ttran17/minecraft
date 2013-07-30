@@ -30,10 +30,7 @@ public class TVBlockContainer extends BlockContainer {
 		return tvBlockContainerID;
 	}
 	
-	@SideOnly(Side.CLIENT)
-	public static final int renderType = RenderingRegistry.getNextAvailableRenderId();
-	
-	protected TVBlockContainer(int blockID, Material material) {
+	public TVBlockContainer(int blockID, Material material) {
 		super(blockID, material);		
 	}
 
@@ -114,7 +111,7 @@ public class TVBlockContainer extends BlockContainer {
 	 * There is nothing that matches this renderType so this block is never actually rendered.
 	 */
 	public int getRenderType() {
-		return renderType;
+		return -1;
 	}
 	
 	@Override
