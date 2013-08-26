@@ -70,7 +70,7 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 			mv.visitFieldInsn(GETFIELD, "ju", "bu", "Ljava/lang/String;");
 			mv.visitVarInsn(ALOAD, 0);
 			mv.visitFieldInsn(GETFIELD, "ju", "a", "Ljz;");
-			mv.visitMethodInsn(INVOKESTATIC, "com/github/ttran17/servermods/FinerOps", "canCommandSenderUseCommand", "(ILjava/lang/String;Ljava/lang/String;Ljz;)Z");
+			mv.visitMethodInsn(INVOKESTATIC, "com/github/ttran17/opmods/FinerOps", "canCommandSenderUseCommand", "(ILjava/lang/String;Ljava/lang/String;Ljz;)Z");
 			Label l0 = new Label();
 			mv.visitJumpInsn(IFEQ, l0);
 			mv.visitLdcInsn("seed");

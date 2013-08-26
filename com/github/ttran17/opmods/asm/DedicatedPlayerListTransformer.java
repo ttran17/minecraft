@@ -65,9 +65,9 @@ public class DedicatedPlayerListTransformer implements IClassTransformer {
 	    public void visitInsn(int opcode) {
 	        if (opcode == RETURN) {
 	        	mv.visitVarInsn(ALOAD, 0);
-	        	mv.visitFieldInsn(PUTSTATIC, "com/github/ttran17/servermods/FinerOps", "manager", "Liq;");
+	        	mv.visitFieldInsn(PUTSTATIC, "com/github/ttran17/opmods/FinerOps", "dedicatedPlayerList", "Liq;");
 	        	mv.visitVarInsn(ALOAD, 1);
-	        	mv.visitMethodInsn(INVOKESTATIC, "com/github/ttran17/servermods/FinerOps", "load", "(Lir;)V");
+	        	mv.visitMethodInsn(INVOKESTATIC, "com/github/ttran17/opmods/FinerOps", "load", "(Lir;)V");
 	        } 	        
 	        mv.visitInsn(opcode);	       
 	    }
