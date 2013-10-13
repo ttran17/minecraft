@@ -155,15 +155,15 @@ public class FinerOps {
 	{
 		if (godCommands.contains(par2Str.toLowerCase()) && !gods.contains(username.toLowerCase())) {
 			String mesg = toWarning(par2Str, gods);
-			ChatMessageComponent par1ChatMessageComponent = ChatMessageComponent.func_111082_b("commands.generic.usage", 
-					new Object[] {ChatMessageComponent.func_111082_b(mesg)}).func_111059_a(EnumChatFormatting.RED);
+			ChatMessageComponent par1ChatMessageComponent = ChatMessageComponent.createFromTranslationWithSubstitutions("commands.generic.usage", 
+					new Object[] {ChatMessageComponent.createFromTranslationWithSubstitutions(mesg)}).setColor(EnumChatFormatting.RED);
 			playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(par1ChatMessageComponent));
 			return false;
 		}
 		if (superOpCommands.contains(par2Str.toLowerCase()) && !superOps.contains(username.toLowerCase())) {
 			String mesg = toWarning(par2Str, superOps);
-			ChatMessageComponent par1ChatMessageComponent = ChatMessageComponent.func_111082_b("commands.generic.usage", 
-					new Object[] {ChatMessageComponent.func_111082_b(mesg)}).func_111059_a(EnumChatFormatting.RED);
+			ChatMessageComponent par1ChatMessageComponent = ChatMessageComponent.createFromTranslationWithSubstitutions("commands.generic.usage", 
+					new Object[] {ChatMessageComponent.createFromTranslationWithSubstitutions(mesg)}).setColor(EnumChatFormatting.RED);
 			playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(par1ChatMessageComponent));
 			return false;
 		}    	

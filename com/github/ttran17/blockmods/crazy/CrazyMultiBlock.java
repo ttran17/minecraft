@@ -28,8 +28,7 @@ public class CrazyMultiBlock extends Block {
     {
         super(par1, material);
         this.modid = modid;
-        this.crazyTypes = crazyTypes;
-        
+        this.crazyTypes = crazyTypes;      
     }
 
     @Override

@@ -7,7 +7,9 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.github.ttran17.blockmods.CreativeTabBlockMods;
+import com.github.ttran17.blockmods.common.CreativeTabBlockMods;
+import com.github.ttran17.blockmods.crazy.itemblock.CrazyBlocks1;
+import com.github.ttran17.blockmods.crazy.itemblock.CrazyBlocks2;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -39,8 +41,7 @@ public class CrazyBlocksMod {
 
 		config.load();
 		
-		// Order matters. Or you can mess with the config file.
-		int defaultID = 1700;
+		int defaultID = 1701;
 		int displayBlockID = register(config, defaultID++, CrazyBlocks1.class, CrazyBlocks1.crazyTypes);
 		register(config, defaultID++, CrazyBlocks2.class, CrazyBlocks2.crazyTypes);
 		

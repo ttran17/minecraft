@@ -13,11 +13,12 @@ public class ASMUtils {
 	public static void main(String[] args) {
         ClassReader cr;
 		try {
-			String base = "/home/ttran/Projects/forge-9.10.0.789/mcp/reobf/minecraft/";
-			String base2 = "/home/ttran/Projects/forge-9.10.0.789/mcp/bin/minecraft/";
+			String forge = "forge-9.11.0883";
+			String base = "/home/ttran/Projects/" + forge + "/mcp/reobf/minecraft/";
+			String base2 = "/home/ttran/Projects/" + forge + "/mcp/bin/minecraft/";
 //			cr = new ClassReader(new FileInputStream(base + "com/github/ttran17/servermods/FinerOps.class"));
-			cr = new ClassReader(new FileInputStream(base2 + "com/github/ttran17/servermods/FinerOps.class"));
-//			cr = new ClassReader(new FileInputStream(base + "iq.class"));
+//			cr = new ClassReader(new FileInputStream(base2 + "com/github/ttran17/servermods/FinerOps.class"));
+			cr = new ClassReader(new FileInputStream(base + "awy.class"));
 //			cr = new ClassReader(new FileInputStream("axr.class"));
 	        cr.accept(new TraceClassVisitor(null, new ASMifier(), new PrintWriter(
 	                System.out)),  ClassReader.SKIP_DEBUG);

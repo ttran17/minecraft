@@ -16,7 +16,7 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class DedicatedPlayerListTransformer implements IClassTransformer {
 
-	public final String className = "iq"; // net.minecraft.server.dedicated.DedicatedPlayerList
+	public final String className = "ir"; // net.minecraft.server.dedicated.DedicatedPlayerList
 	
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
@@ -34,7 +34,7 @@ public class DedicatedPlayerListTransformer implements IClassTransformer {
 	public class DedicatedPlayerListVisitor extends ClassVisitor {
 
 		public final String name = "<init>"; // constructor;
-		public final String desc = "(Lir;)V";
+		public final String desc = "(Lis;)V";
 		
 		public DedicatedPlayerListVisitor(int api, ClassVisitor cv) {
 			super(api, cv);
@@ -60,14 +60,14 @@ public class DedicatedPlayerListTransformer implements IClassTransformer {
 		@Override
 		/*
         com.github.ttran17.opmods.FinerOps.dedicatedPlayerList = this;
-        com.github.ttran17.opmods.FinerOps.load(dedicatedServer);
+        com.github.ttran17.opmods.FinerOps.load(par1DedicatedServer);
 		 */
 	    public void visitInsn(int opcode) {
 	        if (opcode == RETURN) {
 	        	mv.visitVarInsn(ALOAD, 0);
-	        	mv.visitFieldInsn(PUTSTATIC, "com/github/ttran17/opmods/FinerOps", "dedicatedPlayerList", "Liq;");
+	        	mv.visitFieldInsn(PUTSTATIC, "com/github/ttran17/opmods/FinerOps", "dedicatedPlayerList", "Lir;");
 	        	mv.visitVarInsn(ALOAD, 1);
-	        	mv.visitMethodInsn(INVOKESTATIC, "com/github/ttran17/opmods/FinerOps", "load", "(Lir;)V");
+	        	mv.visitMethodInsn(INVOKESTATIC, "com/github/ttran17/opmods/FinerOps", "load", "(Lis;)V");
 	        } 	        
 	        mv.visitInsn(opcode);	       
 	    }

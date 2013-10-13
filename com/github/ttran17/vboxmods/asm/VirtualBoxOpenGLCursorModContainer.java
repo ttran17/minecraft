@@ -1,4 +1,4 @@
-package com.github.ttran17.opmods.asm;
+package com.github.ttran17.vboxmods.asm;
 
 import java.util.Arrays;
 
@@ -10,18 +10,18 @@ import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.versioning.VersionParser;
 import cpw.mods.fml.common.versioning.VersionRange;
 
-public class FinerOpsModContainer extends DummyModContainer {
+public class VirtualBoxOpenGLCursorModContainer extends DummyModContainer {
 
 	private static final String mcVersionRange = "[1.6.4]";
 
-	public FinerOpsModContainer() {
+	public VirtualBoxOpenGLCursorModContainer() {
 		super(new ModMetadata());
 		ModMetadata meta = getMetadata();
-		meta.modId       = "FinerOps";
-		meta.name        = "FinerOps";
+		meta.modId       = "VirtualBoxOpenGLCursor";
+		meta.name        = "VirtualBoxOpenGLCursor";
 		meta.version     = "1.6.4";
 		meta.authorList  = Arrays.asList("KidGoldenArms");
-		meta.description = "Allows finer control over ops roles / privileges";
+		meta.description = "Auto-detect virtual box env & draw OpenGL cursor";
 		meta.url         = "";
 	}
 
@@ -35,5 +35,4 @@ public class FinerOpsModContainer extends DummyModContainer {
 	public VersionRange acceptableMinecraftVersionRange() {
 		return VersionParser.parseRange(mcVersionRange);
 	}
-
 }

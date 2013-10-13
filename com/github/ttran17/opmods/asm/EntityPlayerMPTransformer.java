@@ -16,7 +16,7 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class EntityPlayerMPTransformer implements IClassTransformer {
 
-	public final String className = "ju"; // net.minecraft.entity.player.EntityPlayerMP
+	public final String className = "jv"; // net.minecraft.entity.player.EntityPlayerMP
 	
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
@@ -51,26 +51,26 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 			return mv;
 		}		
 		
-	    /*
-	    public boolean canCommandSenderUseCommand(int par1, String par2Str)
-	    {
-	    	if (com.github.ttran17.servermods.FinerOps.canCommandSenderUseCommand(par1, par2Str, this.username, playerNetServerHandler)) {
-	    		return "seed".equals(par2Str) && !this.mcServer.isDedicatedServer() ? true : (!"tell".equals(par2Str) && !"help".equals(par2Str) && !"me".equals(par2Str) ? (this.mcServer.getConfigurationManager().areCommandsAllowed(this.username) ? this.mcServer.func_110455_j() >= par1 : false) : true);
-	    	} else {
-	    		return false;
-	    	}
-	        //return "seed".equals(par2Str) && !this.mcServer.isDedicatedServer() ? true : (!"tell".equals(par2Str) && !"help".equals(par2Str) && !"me".equals(par2Str) ? (this.mcServer.getConfigurationManager().areCommandsAllowed(this.username) ? this.mcServer.func_110455_j() >= par1 : false) : true);
-	    }
-		*/
+		/*
+    public boolean canCommandSenderUseCommand(int par1, String par2Str)
+    {
+    	if (com.github.ttran17.opmods.FinerOps.canCommandSenderUseCommand(par1, par2Str, this.username, playerNetServerHandler)) {
+    		return "seed".equals(par2Str) && !this.mcServer.isDedicatedServer() ? true : (!"tell".equals(par2Str) && !"help".equals(par2Str) && !"me".equals(par2Str) ? (this.mcServer.getConfigurationManager().isPlayerOpped(this.username) ? this.mcServer.func_110455_j() >= par1 : false) : true);
+    	} else {
+    		return false;
+    	}
+        //return "seed".equals(par2Str) && !this.mcServer.isDedicatedServer() ? true : (!"tell".equals(par2Str) && !"help".equals(par2Str) && !"me".equals(par2Str) ? (this.mcServer.getConfigurationManager().isPlayerOpped(this.username) ? this.mcServer.func_110455_j() >= par1 : false) : true);
+    }
+		 */
 		public void newMethod(MethodVisitor mv) {
 			mv.visitCode();
 			mv.visitVarInsn(ILOAD, 1);
 			mv.visitVarInsn(ALOAD, 2);
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "ju", "bu", "Ljava/lang/String;");
+			mv.visitFieldInsn(GETFIELD, "jv", "bu", "Ljava/lang/String;");
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "ju", "a", "Ljz;");
-			mv.visitMethodInsn(INVOKESTATIC, "com/github/ttran17/opmods/FinerOps", "canCommandSenderUseCommand", "(ILjava/lang/String;Ljava/lang/String;Ljz;)Z");
+			mv.visitFieldInsn(GETFIELD, "jv", "a", "Lka;");
+			mv.visitMethodInsn(INVOKESTATIC, "com/github/ttran17/opmods/FinerOps", "canCommandSenderUseCommand", "(ILjava/lang/String;Ljava/lang/String;Lka;)Z");
 			Label l0 = new Label();
 			mv.visitJumpInsn(IFEQ, l0);
 			mv.visitLdcInsn("seed");
@@ -79,7 +79,7 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 			Label l1 = new Label();
 			mv.visitJumpInsn(IFEQ, l1);
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "ju", "b", "Lnet/minecraft/server/MinecraftServer;");
+			mv.visitFieldInsn(GETFIELD, "jv", "b", "Lnet/minecraft/server/MinecraftServer;");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/MinecraftServer", "V", "()Z");
 			mv.visitJumpInsn(IFNE, l1);
 			mv.visitInsn(ICONST_1);
@@ -101,15 +101,15 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z");
 			mv.visitJumpInsn(IFNE, l3);
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "ju", "b", "Lnet/minecraft/server/MinecraftServer;");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/MinecraftServer", "af", "()Lhm;");
+			mv.visitFieldInsn(GETFIELD, "jv", "b", "Lnet/minecraft/server/MinecraftServer;");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/MinecraftServer", "af", "()Lhn;");
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "ju", "bu", "Ljava/lang/String;");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "hm", "e", "(Ljava/lang/String;)Z");
+			mv.visitFieldInsn(GETFIELD, "jv", "bu", "Ljava/lang/String;");
+			mv.visitMethodInsn(INVOKEVIRTUAL, "hn", "e", "(Ljava/lang/String;)Z");
 			Label l4 = new Label();
 			mv.visitJumpInsn(IFEQ, l4);
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "ju", "b", "Lnet/minecraft/server/MinecraftServer;");
+			mv.visitFieldInsn(GETFIELD, "jv", "b", "Lnet/minecraft/server/MinecraftServer;");
 			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/MinecraftServer", "k", "()I");
 			mv.visitVarInsn(ILOAD, 1);
 			Label l5 = new Label();
