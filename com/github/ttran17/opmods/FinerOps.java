@@ -8,8 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import net.minecraft.network.NetServerHandler;
-import net.minecraft.network.packet.Packet3Chat;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.dedicated.DedicatedPlayerList;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.util.ChatMessageComponent;
@@ -151,20 +150,20 @@ public class FinerOps {
 	 * 
 	 * Also: ChatMessageComponent.func_111082_b("chat.type.text", new Object[] {this.playerEntity.getTranslatedEntityName(), var2})
 	 */
-	public static boolean canCommandSenderUseCommand(int par1, String par2Str, String username, NetServerHandler playerNetServerHandler)
+	public static boolean canCommandSenderUseCommand(int par1, String par2Str, String username, EntityPlayerMP entityPlayerMP)
 	{
 		if (godCommands.contains(par2Str.toLowerCase()) && !gods.contains(username.toLowerCase())) {
 			String mesg = toWarning(par2Str, gods);
 			ChatMessageComponent par1ChatMessageComponent = ChatMessageComponent.createFromTranslationWithSubstitutions("commands.generic.usage", 
 					new Object[] {ChatMessageComponent.createFromTranslationWithSubstitutions(mesg)}).setColor(EnumChatFormatting.RED);
-			playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(par1ChatMessageComponent));
+			entityPlayerMP.sendChatToPlayer(par1ChatMessageComponent);
 			return false;
 		}
 		if (superOpCommands.contains(par2Str.toLowerCase()) && !superOps.contains(username.toLowerCase())) {
 			String mesg = toWarning(par2Str, superOps);
 			ChatMessageComponent par1ChatMessageComponent = ChatMessageComponent.createFromTranslationWithSubstitutions("commands.generic.usage", 
 					new Object[] {ChatMessageComponent.createFromTranslationWithSubstitutions(mesg)}).setColor(EnumChatFormatting.RED);
-			playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(par1ChatMessageComponent));
+			entityPlayerMP.sendChatToPlayer(par1ChatMessageComponent);
 			return false;
 		}    	
 
