@@ -54,7 +54,7 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 		/*
     public boolean canCommandSenderUseCommand(int par1, String par2Str)
     {
-    	if (com.github.ttran17.opmods.FinerOps.canCommandSenderUseCommand(par1, par2Str, this.username, playerNetServerHandler)) {
+    	if (com.github.ttran17.opmods.FinerOps.canCommandSenderUseCommand(par1, par2Str, this.username, this)) {
     		return "seed".equals(par2Str) && !this.mcServer.isDedicatedServer() ? true : (!"tell".equals(par2Str) && !"help".equals(par2Str) && !"me".equals(par2Str) ? (this.mcServer.getConfigurationManager().isPlayerOpped(this.username) ? this.mcServer.func_110455_j() >= par1 : false) : true);
     	} else {
     		return false;
@@ -69,8 +69,7 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 			mv.visitVarInsn(ALOAD, 0);
 			mv.visitFieldInsn(GETFIELD, "jv", "bu", "Ljava/lang/String;");
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, "jv", "a", "Lka;");
-			mv.visitMethodInsn(INVOKESTATIC, "com/github/ttran17/opmods/FinerOps", "canCommandSenderUseCommand", "(ILjava/lang/String;Ljava/lang/String;Lka;)Z");
+			mv.visitMethodInsn(INVOKESTATIC, "com/github/ttran17/opmods/FinerOps", "canCommandSenderUseCommand", "(ILjava/lang/String;Ljava/lang/String;Ljv;)Z");
 			Label l0 = new Label();
 			mv.visitJumpInsn(IFEQ, l0);
 			mv.visitLdcInsn("seed");
