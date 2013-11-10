@@ -10,6 +10,7 @@ import org.objectweb.asm.util.ASMifier;
 import org.objectweb.asm.util.TraceClassVisitor;
 
 public class AsmUtils {
+	
 	public static void main(String[] args) {
         ClassReader cr;
 		try {
@@ -29,6 +30,6 @@ public class AsmUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
+	
 }
