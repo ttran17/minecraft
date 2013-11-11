@@ -1,1 +1,5 @@
-bin/
+mcp/bin/
+raw/bin/
+raw/lib/
+raw/libraries
+raw/.project
