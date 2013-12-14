@@ -2,4 +2,6 @@ mcp/bin/
 raw/bin/
 raw/lib/
 raw/libraries
+raw/logs
 raw/.project
+raw/tmp
