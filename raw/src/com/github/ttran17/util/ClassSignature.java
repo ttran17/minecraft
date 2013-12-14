@@ -2,20 +2,20 @@ package com.github.ttran17.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 
 public class ClassSignature {
 	
-	private final Map<String,String[]> signatures;
+	private final List<Signature> signatures;
 	
 	private final int minMatches;
 	
-	public ClassSignature(Map<String,String[]> signatures) {
+	public ClassSignature(List<Signature> signatures) {
 		this.signatures = signatures;
 		this.minMatches = signatures.size();
 	}
 	
-	public ClassSignature(Map<String,String[]> signatures, int minMatches) {
+	public ClassSignature(List<Signature> signatures, int minMatches) {
 		this.signatures = signatures;
 		this.minMatches = minMatches;
 	}
@@ -28,18 +28,16 @@ public class ClassSignature {
 		int matches = 0;
 		String line = reader.readLine();
 		while (line != null) {
-			for (Map.Entry<String,String[]> entrySet : signatures.entrySet()) {
-				String key = entrySet.getKey();
-				String[] values = entrySet.getValue();				
-				if (line.contains(key)) {
+			for (Signature signature : signatures) {
+				if (line.contains(signature.key)) {
 					int count = 0;
-					for (String value : values) {
+					for (String value : signature.values) {
 						if (line.contains(value)) {
 							System.out.println(line);
 							count++;
 						}
 					}
-					if (count == values.length) {
+					if (count == signature.values.length) {
 						matches++;
 					}
 				}
@@ -47,5 +45,15 @@ public class ClassSignature {
 			line = reader.readLine();
 		}		
 		return matches;
+	}
+	
+	public static class Signature {
+		private final String key;
+		private final String[] values;
+		
+		public Signature(String key, String[] values) {
+			this.key = key;
+			this.values = values;
+		}
 	}
 }

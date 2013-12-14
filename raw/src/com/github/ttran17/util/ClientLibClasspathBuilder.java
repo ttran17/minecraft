@@ -13,15 +13,20 @@ import argo.jdom.JsonNode;
 import argo.jdom.JsonRootNode;
 import argo.saj.InvalidSyntaxException;
 
-public class MinecraftLibBuilder {
+public class ClientLibClasspathBuilder {
+	
+	public static final String client = "/home/ttran/vanilla-minecraft/versions/";
+	
+	public static final String dir = client + ModUtils.version + "/";
+	
+	public static final String filename = ModUtils.version + ".json";
+	
+	public static final File jsonFile = new File(dir,filename);
 
 	public static void main(String[] args) throws IOException, InvalidSyntaxException {
 		System.out.println("Json entries ...");
 
-		String version = "1.7.2";
-		File file = new File("/home/ttran/.minecraft/versions/"+version,version+".json");
-
-		BufferedReader reader = new BufferedReader(new FileReader(file));
+		BufferedReader reader = new BufferedReader(new FileReader(jsonFile));
 		JdomParser jdom = new JdomParser();
 		JsonRootNode node = jdom.parse(reader);
 
