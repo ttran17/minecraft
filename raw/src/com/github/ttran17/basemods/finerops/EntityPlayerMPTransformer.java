@@ -18,12 +18,12 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public static final String EntityPlayerMP_classname = "mp"; // net.minecraft.entity.player.EntityPlayerMP
+	public static final String serverConfigurationManager = "lg";
 	
 	public static final String getUserName = "b_";
 	public static final String mcServer = "b";
 	public static final String isDedicatedServer = "V";
 	public static final String getConfigurationManager = "af";
-	public static final String serverConfigurationManager = "ld";
 	public static final String isPlayerOpped = "d";
 	public static final String getOpLevel = "l"; // this is my name, not Searge's
 
