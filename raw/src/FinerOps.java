@@ -18,14 +18,14 @@ public class FinerOps {
 	public static final Set<String> superOps = new HashSet<String>();
 	public static final Set<String> superOpCommands = new HashSet<String>();
 
-	public static li dedicatedPlayerList;
+	public static ll dedicatedPlayerList;
 
 	/**
 	 * Called from DedicatedPlayerList constructor.
 	 * 
 	 * @param dedicatedServer
 	 */
-	public static void load(lj dedicatedServer) {
+	public static void load(lm dedicatedServer) {
 		LOGGER.warn("Configuring Finer Ops ...");
 		loadGodList(dedicatedServer);
 		loadSuperOpsList(dedicatedServer);
@@ -33,7 +33,8 @@ public class FinerOps {
 		loadSuperOpCommands(dedicatedServer);
 	}
 
-	private static void loadGodList(lj dedicatedServer)
+	@SuppressWarnings("unchecked")
+	private static void loadGodList(lm dedicatedServer)
 	{
 		try
 		{
@@ -56,7 +57,8 @@ public class FinerOps {
 		}
 	}
 
-	private static void loadSuperOpsList(lj dedicatedServer)
+	@SuppressWarnings("unchecked")
+	private static void loadSuperOpsList(lm dedicatedServer)
 	{
 		try
 		{
@@ -80,7 +82,7 @@ public class FinerOps {
 		}
 	}
 
-	private static void loadGodCommands(lj dedicatedServer)
+	private static void loadGodCommands(lm dedicatedServer)
 	{
 		if (gods.size() == 0) {
 			LOGGER.warn("No gods specified. God-commands will not be available! You probably don't want this!");
@@ -105,7 +107,7 @@ public class FinerOps {
 		}
 	}
 
-	private static void loadSuperOpCommands(lj dedicatedServer)
+	private static void loadSuperOpCommands(lm dedicatedServer)
 	{
 		if (superOps.size() == 0) {
 			LOGGER.warn("No super-ops specified. Super-op-commands will not be available! You probably don't want this!");
@@ -137,7 +139,7 @@ public class FinerOps {
 	 * 
 	 * Also: ChatMessageComponent.func_111082_b("chat.type.text", new Object[] {this.playerEntity.getTranslatedEntityName(), var2})
 	 */
-	public static boolean canCommandSenderUseCommand(int par1, String par2Str, String username, mm entityPlayerMP)
+	public static boolean canCommandSenderUseCommand(int par1, String par2Str, String username, mp entityPlayerMP)
 	{
 		if (godCommands.contains(par2Str.toLowerCase()) && !gods.contains(username.toLowerCase())) {
 			String mesg = toWarning(par2Str, gods);
@@ -157,8 +159,6 @@ public class FinerOps {
 		return true;
 	}
 	
-	
-
 	private static String toWarning(String command, Set<String> set) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("" + a.m);

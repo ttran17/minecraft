@@ -1,5 +1,6 @@
 package com.github.ttran17.basemods.virtualbox;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.github.ttran17.basemods.AbstractBytecodeTransformer;
 import com.github.ttran17.basemods.IClassTransformer;
+import com.github.ttran17.util.ClientDependencies;
 
 /**
  * Main class for modifying raw (obfuscated / non-MCP) Minecraft bytecode
@@ -25,8 +27,8 @@ public class VboxOpenGLTransformer extends AbstractBytecodeTransformer {
 		new VboxOpenGLTransformer();
 	}
 	
-	protected String getJarName() {
-		return "/home/ttran/vanilla-minecraft/versions/" + version + "/" + version + ".jar";
+	protected File getMinecraftJar() {
+		return ClientDependencies.minecraftJar;
 	}
 
 	@Override

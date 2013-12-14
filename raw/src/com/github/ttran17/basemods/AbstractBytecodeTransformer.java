@@ -12,21 +12,21 @@ import java.util.zip.ZipFile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.github.ttran17.util.ModUtils;
+
 public abstract class AbstractBytecodeTransformer {
 	
 	private static final Logger LOGGER = LogManager.getLogger();
-	
-	protected static final String version = "1.7.2";
 
-	protected static final String pathOut = "/home/ttran/Projects/staging/raw/" + version;
+	protected static final String pathOut = "/home/ttran/Projects/staging/raw/" + ModUtils.version;
 	
 	protected final File minecraftJar;
 	
-	protected abstract String getJarName();
+	protected abstract File getMinecraftJar();
 	protected abstract Map<IClassTransformer, String[]> getTransformers() throws IOException;
 	
 	public AbstractBytecodeTransformer() {
-		this.minecraftJar = new File(getJarName());
+		this.minecraftJar = getMinecraftJar();
 		
 		try {
 			transform();
@@ -62,6 +62,7 @@ public abstract class AbstractBytecodeTransformer {
 			DataInputStream zin = new DataInputStream(zip.getInputStream(entry));
 			bytes = new byte[(int) entry.getSize()];
 			zin.readFully(bytes);
+			zin.close();
 		}
 		zip.close();
 

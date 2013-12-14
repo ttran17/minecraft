@@ -16,11 +16,12 @@ public class GuiScreenTransformer implements IClassTransformer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
+	public static final String GuiScreen_classname = "bcl"; // GuiScreen obfuscated class name
+	
 	public static final String Minecraft_ref = "k"; // Reference to Minecraft in GuiScreen
 	public static final String Minecraft_displayWidth = "d";
 	public static final String Minecraft_displayHeight = "e";
 
-	public static final String GuiScreen_classname = "bcd"; // GuiScreen obfuscated class name
 	public static final String drawScreen_name = "a"; 
 	public static final String drawScreen_desc = "(IIF)V";
 

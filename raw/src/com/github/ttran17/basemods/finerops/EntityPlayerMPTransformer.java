@@ -17,7 +17,8 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public static final String EntityPlayerMP_classname = "mm"; // net.minecraft.entity.player.EntityPlayerMP
+	public static final String EntityPlayerMP_classname = "mp"; // net.minecraft.entity.player.EntityPlayerMP
+	
 	public static final String getUserName = "b_";
 	public static final String mcServer = "b";
 	public static final String isDedicatedServer = "V";

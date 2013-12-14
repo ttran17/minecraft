@@ -16,8 +16,9 @@ public class MinecraftTransformer implements IClassTransformer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public static final String Minecraft_classname = "azd"; // Minecraft obfuscated class name
-	public static final String checkGLError_name = "d"; //"checkGLError";
+	public static final String Minecraft_classname = "azi"; // Minecraft obfuscated class name
+	
+	public static final String checkGLError_name = "b"; //"checkGLError";
 	public static final String checkGLError_desc = "(Ljava/lang/String;)V";
 
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
