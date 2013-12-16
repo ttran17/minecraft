@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.github.ttran17.dependencies.ClientDependencies;
+
 import argo.jdom.JdomParser;
 import argo.jdom.JsonNode;
 import argo.jdom.JsonRootNode;
@@ -15,13 +17,9 @@ import argo.saj.InvalidSyntaxException;
 
 public class ClientLibClasspathBuilder {
 	
-	public static final String client = "/home/ttran/vanilla-minecraft/versions/";
-	
-	public static final String dir = client + ModUtils.version + "/";
-	
 	public static final String filename = ModUtils.version + ".json";
 	
-	public static final File jsonFile = new File(dir,filename);
+	public static final File jsonFile = new File(ClientDependencies.dir,filename);
 
 	public static void main(String[] args) throws IOException, InvalidSyntaxException {
 		System.out.println("Json entries ...");

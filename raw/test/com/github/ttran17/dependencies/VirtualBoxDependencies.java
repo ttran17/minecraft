@@ -1,4 +1,4 @@
-package com.github.ttran17.util;
+package com.github.ttran17.dependencies;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -6,17 +6,14 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.github.ttran17.dependencies.ClientDependencies;
+import com.github.ttran17.util.ClassSignature;
+import com.github.ttran17.util.ModUtils;
 import com.github.ttran17.util.ClassSignature.Signature;
 
-public class ClientDependencies {
-
-	public static final String client = "/home/ttran/vanilla-minecraft/versions/";
+public class VirtualBoxDependencies {
 	
-	public static final String dir = client + ModUtils.version + "/";
-	
-	public static final String filename = ModUtils.version + ".jar";
-	
-	public static final File minecraftJar = new File(dir,filename);
+	private static final File minecraftJar = ClientDependencies.minecraftJar;
 	
 	@Test
 	/**

@@ -43,14 +43,14 @@ public class ModUtils {
 								ClassReader.SKIP_DEBUG);	        
 						pw.close();
 						pw = null;
-
+						
 						reader = new BufferedReader(new FileReader(new File("tmp")));
 						int matches = signature.check(reader);
 						if (matches >= signature.getMinMatches()) {
 							System.out.println("Possible match: " + entry.getName());
 						}
 						reader.close();	
-						reader = null;
+						reader = null;										
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

@@ -47,6 +47,28 @@ public class ClassSignature {
 		return matches;
 	}
 	
+	public int check(List<Object> input) throws IOException {
+		int matches = 0;
+		for (Object obj : input) {
+			for (Signature signature : signatures) {
+				String line = (String) obj;
+				if (line.contains(signature.key)) {
+					int count = 0;
+					for (String value : signature.values) {
+						if (line.contains(value)) {
+							System.out.println(line);
+							count++;
+						}
+					}
+					if (count == signature.values.length) {
+						matches++;
+					}
+				}
+			}
+		}		
+		return matches;
+	}
+	
 	public static class Signature {
 		private final String key;
 		private final String[] values;

@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.github.ttran17.basemods.AbstractBytecodeTransformer;
 import com.github.ttran17.basemods.IClassTransformer;
-import com.github.ttran17.util.ClientDependencies;
+import com.github.ttran17.dependencies.ClientDependencies;
 
 /**
  * Main class for modifying raw (obfuscated / non-MCP) Minecraft bytecode

@@ -1,22 +1,21 @@
-package com.github.ttran17.util;
+package com.github.ttran17.dependencies;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
+import com.github.ttran17.dependencies.ServerDependencies;
+import com.github.ttran17.util.AsmUtils;
+import com.github.ttran17.util.ClassSignature;
+import com.github.ttran17.util.ModUtils;
 import com.github.ttran17.util.ClassSignature.Signature;
 
-public class ServerDependencies {
+public class FinerOpsDependencies {
 	
-	public static final String server = "/home/ttran/vanilla-minecraft-server/versions/";
-	
-	public static final String dir = server + ModUtils.version + "/";
-	
-	public static final String filename = "minecraft_server." + ModUtils.version + ".jar";
-	
-	public static final File minecraftJar = new File(dir,filename);
+	private static final File minecraftJar = ServerDependencies.minecraftJar;
 	
 	@Test
 	public void findDedicatedPlayerListClass() {
@@ -37,4 +36,13 @@ public class ServerDependencies {
 		ModUtils.findClass(minecraftJar, new ClassSignature(signatures));
 	}
 	
+	@Test
+	public void checkClassInJar() throws IOException {
+		AsmUtils.toTraceClassVisitor(AsmUtils.readClass(ServerDependencies.minecraftJar,"mp"));
+	}
+	
+	@Test
+	public void checkClass() throws IOException {
+		AsmUtils.toTraceClassVisitor(AsmUtils.readClass("/home/ttran/Projects/github/raw/bin","FinerOps.class"));
+	}
 }

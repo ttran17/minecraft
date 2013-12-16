@@ -11,7 +11,6 @@ import java.util.zip.ZipFile;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.util.ASMifier;
 import org.objectweb.asm.util.TraceClassVisitor;
@@ -20,25 +19,23 @@ public class AsmUtils {
 	
 	private static final Logger LOGGER = LogManager.getLogger();
 	
-	public static File minecraftJar = ServerDependencies.minecraftJar;
+	public static TraceClassVisitor traceClassVisitor = new TraceClassVisitor(
+			null, 
+			new ASMifier(), 
+			new PrintWriter(System.out));
 	
-	@Test
-	public void checkEntityPlayerMP() throws IOException {
-		toTraceClassVisitor(readClass("mp"));
+	public static byte[] readClass(String dir, String jarfilename, String name) throws IOException {
+		File jarfile = new File(dir,jarfilename);
+		return readClass(jarfile, name);
 	}
 	
-	@Test
-	public void checkClass() throws IOException {
-		toTraceClassVisitor(readClass("/home/ttran/Projects/github/raw/bin","FinerOps.class"));
-	}
-	
-	public static byte[] readClass(String name) throws IOException {
+	public static byte[] readClass(File jarfile, String name) throws IOException {
 		byte[] bytes = null;
 
-		ZipFile zip = new ZipFile(minecraftJar);
+		ZipFile zip = new ZipFile(jarfile);
 		ZipEntry entry = zip.getEntry(name + ".class");
 		if (entry == null) {
-			LOGGER.error(name + " not found at " + minecraftJar.getName());
+			LOGGER.error(name + " not found at " + jarfile.getName());
 		} else {
 			DataInputStream zin = new DataInputStream(zip.getInputStream(entry));
 			bytes = new byte[(int) entry.getSize()];
@@ -56,17 +53,11 @@ public class AsmUtils {
 	
 	public static void toTraceClassVisitor(byte[] bytes) {
 		ClassReader cr = new ClassReader(bytes);
-		cr.accept(new TraceClassVisitor(
-				null, 
-				new ASMifier(), 
-				new PrintWriter(System.out)),  ClassReader.SKIP_DEBUG);
+		cr.accept(traceClassVisitor, ClassReader.SKIP_DEBUG);
 	}
 	
 	public static void toTraceClassVisitor(FileInputStream stream) throws IOException {
 		ClassReader cr = new ClassReader(stream);
-		cr.accept(new TraceClassVisitor(
-				null, 
-				new ASMifier(), 
-				new PrintWriter(System.out)),  ClassReader.SKIP_DEBUG);
+		cr.accept(traceClassVisitor, ClassReader.SKIP_DEBUG);
 	}
 }
