@@ -154,9 +154,28 @@ public class FinerOps {
 			message.b().a(a.m);
 			entityPlayerMP.b(message); // sendChatToPlayer
 			return false;
-		}            
+		}  
 
-		return true;
+		return canCommandSenderUseCommand(par1, par2Str, entityPlayerMP);
+	}
+	
+	/**
+	 * Mojang's original method.
+	 * 
+	 * @param paramInt
+	 * @param paramString
+	 * @param entityPlayerMP
+	 * @return
+	 */
+	public static boolean canCommandSenderUseCommand(int paramInt, String paramString, mp entityPlayerMP) {
+		if (("seed".equals(paramString)) && (!entityPlayerMP.b.V())) {
+			return true;
+		}
+		if (("tell".equals(paramString)) || ("help".equals(paramString)) || ("me".equals(paramString))) return true;
+		if (entityPlayerMP.b.af().d(entityPlayerMP.b_())) {
+			return entityPlayerMP.b.l() >= paramInt;
+		}
+		return false;
 	}
 	
 	private static String toWarning(String command, Set<String> set) {

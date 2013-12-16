@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -18,14 +17,8 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public static final String EntityPlayerMP_classname = "mp"; // net.minecraft.entity.player.EntityPlayerMP
-	public static final String serverConfigurationManager = "lg";
 	
 	public static final String getUserName = "b_";
-	public static final String mcServer = "b";
-	public static final String isDedicatedServer = "V";
-	public static final String getConfigurationManager = "af";
-	public static final String isPlayerOpped = "d";
-	public static final String getOpLevel = "l"; // this is my name, not Searge's
 
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
@@ -62,7 +55,10 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 
 		/**
     	 * public boolean canCommandSenderUseCommand(int par1, String par2Str) {
-         *     if (FinerOps.canCommandSenderUseCommand(par1, par2Str, this.username, this)) {
+         *     return FinerOps.canCommandSenderUseCommand(par1, par2Str, getUserName, this)); 
+         *     
+         *   // Original from Mojang:
+         *     {
          *  	   if ("seed".equals(par2Str) && !this.mcServer.isDedicatedServer()) {
          *             return true;
          *         }
@@ -71,10 +67,9 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
          *             return this.mcServer.func_110455_j() >= par1;
          *         }
          *     }    
-         *  
-         *     return false;
          *   
-         * //return "seed".equals(par2Str) && !this.mcServer.isDedicatedServer() ? true : (!"tell".equals(par2Str) && !"help".equals(par2Str) && !"me".equals(par2Str) ? (this.mcServer.getConfigurationManager().isPlayerOpped(this.username) ? this.mcServer.func_110455_j() >= par1 : false) : true);
+         *  // The old one liner from Mojang:
+         *     return "seed".equals(par2Str) && !this.mcServer.isDedicatedServer() ? true : (!"tell".equals(par2Str) && !"help".equals(par2Str) && !"me".equals(par2Str) ? (this.mcServer.getConfigurationManager().isPlayerOpped(this.username) ? this.mcServer.func_110455_j() >= par1 : false) : true);
     	 *
     	 * }
 		 */
@@ -86,66 +81,6 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 			mv.visitMethodInsn(INVOKEVIRTUAL, EntityPlayerMP_classname, getUserName, "()Ljava/lang/String;");
 			mv.visitVarInsn(ALOAD, 0);
 			mv.visitMethodInsn(INVOKESTATIC, "FinerOps", "canCommandSenderUseCommand", "(ILjava/lang/String;Ljava/lang/String;L"+EntityPlayerMP_classname +";)Z");
-			Label l0 = new Label();
-			mv.visitJumpInsn(IFEQ, l0);
-			mv.visitLdcInsn("seed");
-			mv.visitVarInsn(ALOAD, 2);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z");
-			Label l1 = new Label();
-			mv.visitJumpInsn(IFEQ, l1);
-			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, EntityPlayerMP_classname, mcServer, "Lnet/minecraft/server/MinecraftServer;");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/MinecraftServer", isDedicatedServer, "()Z");
-			mv.visitJumpInsn(IFNE, l1);
-			mv.visitInsn(ICONST_1);
-			mv.visitInsn(IRETURN);
-			mv.visitLabel(l1);
-			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitLdcInsn("tell");
-			mv.visitVarInsn(ALOAD, 2);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z");
-			Label l2 = new Label();
-			mv.visitJumpInsn(IFNE, l2);
-			mv.visitLdcInsn("help");
-			mv.visitVarInsn(ALOAD, 2);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z");
-			mv.visitJumpInsn(IFNE, l2);
-			mv.visitLdcInsn("me");
-			mv.visitVarInsn(ALOAD, 2);
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z");
-			Label l3 = new Label();
-			mv.visitJumpInsn(IFEQ, l3);
-			mv.visitLabel(l2);
-			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitInsn(ICONST_1);
-			mv.visitInsn(IRETURN);
-			mv.visitLabel(l3);
-			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, EntityPlayerMP_classname, mcServer, "Lnet/minecraft/server/MinecraftServer;");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/MinecraftServer", getConfigurationManager, "()L"+serverConfigurationManager+";");
-			mv.visitVarInsn(ALOAD, 0);
-			mv.visitMethodInsn(INVOKEVIRTUAL, EntityPlayerMP_classname, getUserName, "()Ljava/lang/String;");
-			mv.visitMethodInsn(INVOKEVIRTUAL, serverConfigurationManager, isPlayerOpped, "(Ljava/lang/String;)Z");
-			mv.visitJumpInsn(IFEQ, l0);
-			mv.visitVarInsn(ALOAD, 0);
-			mv.visitFieldInsn(GETFIELD, EntityPlayerMP_classname, mcServer, "Lnet/minecraft/server/MinecraftServer;");
-			mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/MinecraftServer", getOpLevel, "()I");
-			mv.visitVarInsn(ILOAD, 1);
-			Label l4 = new Label();
-			mv.visitJumpInsn(IF_ICMPLT, l4);
-			mv.visitInsn(ICONST_1);
-			Label l5 = new Label();
-			mv.visitJumpInsn(GOTO, l5);
-			mv.visitLabel(l4);
-			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitInsn(ICONST_0);
-			mv.visitLabel(l5);
-			mv.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[] {Opcodes.INTEGER});
-			mv.visitInsn(IRETURN);
-			mv.visitLabel(l0);
-			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-			mv.visitInsn(ICONST_0);
 			mv.visitInsn(IRETURN);
 			mv.visitMaxs(4, 3);
 			mv.visitEnd();
