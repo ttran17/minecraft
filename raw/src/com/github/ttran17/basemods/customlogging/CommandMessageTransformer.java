@@ -1,0 +1,81 @@
+package com.github.ttran17.basemods.customlogging;
+
+import static org.objectweb.asm.Opcodes.ALOAD;
+import static org.objectweb.asm.Opcodes.INVOKESTATIC;
+import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
+import static org.objectweb.asm.Opcodes.RETURN;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+
+import com.github.ttran17.basemods.IClassTransformer;
+
+public class CommandMessageTransformer implements IClassTransformer {
+	
+	private static final Logger LOGGER = LogManager.getLogger();
+
+	public static final String CommandMessage_classname = "az"; // net.minecraft.command.server.CommandMessage
+	
+	public static final String ICommandSender_classname = "ac"; // net.minecraft.command.ICommandSender
+	
+	@Override
+	public byte[] transform(String name, String transformedName, byte[] bytes) {
+		if (CommandMessage_classname.equals(name)) {
+			LOGGER.info("Modifying " + name + " which is " + transformedName);
+			ClassReader cr = new ClassReader(bytes);
+			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+			CommandMessageVisitor visitor = new CommandMessageVisitor(Opcodes.ASM4, cw);
+			cr.accept(visitor, 0);
+			bytes = cw.toByteArray();
+		}
+		return bytes;
+	}
+
+	public class CommandMessageVisitor extends ClassVisitor {
+
+		public final String name = "b"; // processCommand;
+		public final String desc = "(L"+ICommandSender_classname +";[Ljava/lang/String;)V";
+
+		public CommandMessageVisitor(int api, ClassVisitor cv) {
+			super(api, cv);
+		}
+
+		@Override
+		public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+			MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
+			if (this.name.equals(name) && this.desc.equals(desc)) {
+				LOGGER.info("Visiting processCommand ...");
+				mv = new ProcessCommandVisitor(Opcodes.ASM4, mv);
+			}                          
+			return mv;
+		}                
+	}
+
+	public class ProcessCommandVisitor extends MethodVisitor {
+
+		public ProcessCommandVisitor(int api, MethodVisitor mv) {
+			super(api, mv);
+		}
+
+		@Override
+		/**
+		 * MinecraftServer.getServer().log(IChatComponent)
+		 */
+		public void visitInsn(int opcode) {
+			if (opcode == RETURN) {
+				mv.visitMethodInsn(INVOKESTATIC, "net/minecraft/server/MinecraftServer", "G", "()Lnet/minecraft/server/MinecraftServer;");
+				mv.visitVarInsn(ALOAD, 5);
+				mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/MinecraftServer", "a", "(Lfa;)V");
+				mv.visitMethodInsn(INVOKESTATIC, "net/minecraft/server/MinecraftServer", "G", "()Lnet/minecraft/server/MinecraftServer;");
+				mv.visitVarInsn(ALOAD, 6);
+				mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/MinecraftServer", "a", "(Lfa;)V");
+			}                 
+			mv.visitInsn(opcode);               
+		}
+	}
+}
