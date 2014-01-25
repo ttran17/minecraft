@@ -7,13 +7,18 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import net.minecraft.src.ChatMessageComponent;
-import net.minecraft.src.DedicatedPlayerList;
-import net.minecraft.src.DedicatedServer;
-import net.minecraft.src.EntityPlayerMP;
-import net.minecraft.src.EnumChatFormatting;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.dedicated.DedicatedPlayerList;
+import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumChatFormatting;
 
 public class FinerOps {
+	
+	private static final Logger LOGGER = LogManager.getLogger();
 
 	public static final Set<String> gods = new HashSet<String>();
 	public static final Set<String> godCommands = new HashSet<String>();
@@ -28,7 +33,7 @@ public class FinerOps {
 	 * @param par1DedicatedServer
 	 */
 	public static void load(DedicatedServer par1DedicatedServer) {
-		dedicatedPlayerList.getDedicatedServerInstance().getLogAgent().logWarning("Configuring Finer Ops ...");
+        LOGGER.warn("Configuring Finer Ops ...");
 		loadGodList(par1DedicatedServer);
 		loadSuperOpsList(par1DedicatedServer);
 		loadGodCommands(par1DedicatedServer);
@@ -54,7 +59,7 @@ public class FinerOps {
 		}
 		catch (Exception exception)
 		{
-			dedicatedPlayerList.getDedicatedServerInstance().getLogAgent().logWarning("Failed to load gods list: " + exception);
+			LOGGER.warn("Failed to load gods list: " + exception);
 		}
 	}
 
@@ -78,14 +83,14 @@ public class FinerOps {
 		}
 		catch (Exception exception)
 		{
-			dedicatedPlayerList.getDedicatedServerInstance().getLogAgent().logWarning("Failed to load super operators list: " + exception);
+			LOGGER.warn("Failed to load super operators list: " + exception);
 		}
 	}
 
 	private static void loadGodCommands(DedicatedServer par1DedicatedServer)
 	{
 		if (gods.size() == 0) {
-			dedicatedPlayerList.getDedicatedServerInstance().getLogAgent().logWarning("No gods specified. Therefore, no commands reserved for gods.");
+			LOGGER.warn("No gods specified. Therefore, no commands reserved for gods.");
 			return;
 		}
 		try
@@ -104,14 +109,14 @@ public class FinerOps {
 		}
 		catch (Exception exception)
 		{
-			dedicatedPlayerList.getDedicatedServerInstance().getLogAgent().logWarning("Failed to load god commands list: " + exception);
+			LOGGER.warn("Failed to load god commands list: " + exception);
 		}
 	}
 
 	private static void loadSuperOpCommands(DedicatedServer par1DedicatedServer)
 	{
 		if (superOps.size() == 0) {
-			dedicatedPlayerList.getDedicatedServerInstance().getLogAgent().logWarning("No super-ops specified. Therefore, no commands reserved for super-ops.");
+			LOGGER.warn("No super-ops specified. Therefore, no commands reserved for super-ops.");
 			return;
 		}
 		try
@@ -130,7 +135,7 @@ public class FinerOps {
 		}
 		catch (Exception exception)
 		{
-			dedicatedPlayerList.getDedicatedServerInstance().getLogAgent().logWarning("Failed to load super-op commands list: " + exception);
+			LOGGER.warn("Failed to load super-op commands list: " + exception);
 		}
 	}
 
@@ -141,33 +146,37 @@ public class FinerOps {
      *
      *    public boolean canCommandSenderUseCommand(int par1, String par2Str)
      *    {
-     *       if (FinerOpsConfigurationManager.canCommandSenderUseCommand(par1, par2Str, this.username, this)) {
-     *		 return "seed".equals(par2Str) && !this.mcServer.isDedicatedServer() ? true : (!"tell".equals(par2Str) && !"help".equals(par2Str) && !"me".equals(par2Str) ? (this.mcServer.getConfigurationManager().areCommandsAllowed(this.username) ? this.mcServer.func_110455_j() >= par1 : false) : true);
-     *	  } else {
-     *		return false;
-     *	  }
-     *
+     *       return FinerOpsConfigurationManager.canCommandSenderUseCommand(par1, par2Str, this.username, this));
+     *		 // return "seed".equals(par2Str) && !this.mcServer.isDedicatedServer() ? true : (!"tell".equals(par2Str) && !"help".equals(par2Str) && !"me".equals(par2Str) ? (this.mcServer.getConfigurationManager().areCommandsAllowed(this.username) ? this.mcServer.func_110455_j() >= par1 : false) : true);
+     *    }
 	 * 
-	 * Also: ChatMessageComponent.func_111082_b("chat.type.text", new Object[] {this.playerEntity.getTranslatedEntityName(), var2})
 	 */
 	public static boolean canCommandSenderUseCommand(int par1, String par2Str, String username, EntityPlayerMP entityPlayerMP)
 	{
 		if (godCommands.contains(par2Str.toLowerCase()) && !gods.contains(username.toLowerCase())) {
 			String mesg = toWarning(par2Str, gods);
-			ChatMessageComponent par1ChatMessageComponent = ChatMessageComponent.createFromTranslationWithSubstitutions("commands.generic.usage", 
-					new Object[] {ChatMessageComponent.createFromTranslationWithSubstitutions(mesg)}).setColor(EnumChatFormatting.RED);
-			entityPlayerMP.sendChatToPlayer(par1ChatMessageComponent);
+			ChatComponentTranslation component = new ChatComponentTranslation(
+					"commands.generic.usage", 
+					new Object[] {new ChatComponentTranslation(mesg)});
+            component.getChatStyle().setColor(EnumChatFormatting.RED);
+			entityPlayerMP.addChatMessage(component);
 			return false;
 		}
 		if (superOpCommands.contains(par2Str.toLowerCase()) && !superOps.contains(username.toLowerCase())) {
 			String mesg = toWarning(par2Str, superOps);
-			ChatMessageComponent par1ChatMessageComponent = ChatMessageComponent.createFromTranslationWithSubstitutions("commands.generic.usage", 
-					new Object[] {ChatMessageComponent.createFromTranslationWithSubstitutions(mesg)}).setColor(EnumChatFormatting.RED);
-			entityPlayerMP.sendChatToPlayer(par1ChatMessageComponent);
+			ChatComponentTranslation component = new ChatComponentTranslation(
+					"commands.generic.usage", 
+					new Object[] {new ChatComponentTranslation(mesg)});
+            component.getChatStyle().setColor(EnumChatFormatting.RED);
+			entityPlayerMP.addChatMessage(component);
 			return false;
 		}    	
 
-		return true;
+		return canCommandSenderUseCommand(par1, par2Str, entityPlayerMP);
+	}
+	
+	private static boolean canCommandSenderUseCommand(int par1, String par2Str, EntityPlayerMP entityPlayerMP) {
+		 return "seed".equals(par2Str) && !entityPlayerMP.mcServer.isDedicatedServer() ? true : (!"tell".equals(par2Str) && !"help".equals(par2Str) && !"me".equals(par2Str) ? (entityPlayerMP.mcServer.getConfigurationManager().isPlayerOpped(entityPlayerMP.getCommandSenderName()) ? entityPlayerMP.mcServer.getOpPermissionLevel() >= par1 : false) : true);
 	}
 
 	private static String toWarning(String command, Set<String> set) {
