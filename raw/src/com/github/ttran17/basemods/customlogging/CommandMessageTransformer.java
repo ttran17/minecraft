@@ -1,6 +1,7 @@
 package com.github.ttran17.basemods.customlogging;
 
 import static org.objectweb.asm.Opcodes.ALOAD;
+import static org.objectweb.asm.Opcodes.INVOKEINTERFACE;
 import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
 import static org.objectweb.asm.Opcodes.RETURN;
@@ -14,6 +15,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import com.github.ttran17.basemods.IClassTransformer;
+import com.github.ttran17.basemods.finerops.EntityPlayerMPTransformer;
 
 public class CommandMessageTransformer implements IClassTransformer {
 	
@@ -22,6 +24,10 @@ public class CommandMessageTransformer implements IClassTransformer {
 	public static final String CommandMessage_classname = "az"; // net.minecraft.command.server.CommandMessage
 	
 	public static final String ICommandSender_classname = "ac"; // net.minecraft.command.ICommandSender
+	
+	public static final String ICommandSender_getChatComponent = "c_";
+	
+	public static final String IChatComponent_classname = "fa"; // net.minecraft.util.IChatComponent
 	
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
@@ -64,16 +70,16 @@ public class CommandMessageTransformer implements IClassTransformer {
 
 		@Override
 		/**
-		 * MinecraftServer.getServer().log(IChatComponent)
+		 * CustomLogging.logWhisper(IChatComponent from, IChatComponent to, IChatComponent message);
 		 */
 		public void visitInsn(int opcode) {
 			if (opcode == RETURN) {
-				mv.visitMethodInsn(INVOKESTATIC, "net/minecraft/server/MinecraftServer", "G", "()Lnet/minecraft/server/MinecraftServer;");
-				mv.visitVarInsn(ALOAD, 5);
-				mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/MinecraftServer", "a", "(Lfa;)V");
-				mv.visitMethodInsn(INVOKESTATIC, "net/minecraft/server/MinecraftServer", "G", "()Lnet/minecraft/server/MinecraftServer;");
-				mv.visitVarInsn(ALOAD, 6);
-				mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/server/MinecraftServer", "a", "(Lfa;)V");
+				mv.visitVarInsn(ALOAD, 1);
+				mv.visitMethodInsn(INVOKEINTERFACE, ICommandSender_classname, ICommandSender_getChatComponent, "()L" + IChatComponent_classname + ";");
+				mv.visitVarInsn(ALOAD, 3);
+				mv.visitMethodInsn(INVOKEVIRTUAL, EntityPlayerMPTransformer.EntityPlayerMP_classname, EntityPlayerMPTransformer.getChatComponent, "()L" + IChatComponent_classname + ";");
+				mv.visitVarInsn(ALOAD, 4);
+				mv.visitMethodInsn(INVOKESTATIC, "CustomLogging", "logWhisper", "(L" + IChatComponent_classname + ";L" + IChatComponent_classname + ";L" + IChatComponent_classname + ";)V");
 			}                 
 			mv.visitInsn(opcode);               
 		}

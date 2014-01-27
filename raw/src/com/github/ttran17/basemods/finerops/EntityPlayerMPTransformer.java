@@ -19,6 +19,8 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 	public static final String EntityPlayerMP_classname = "mp"; // net.minecraft.entity.player.EntityPlayerMP
 	
 	public static final String getUserName = "b_";
+	
+	public static final String getChatComponent = "c_";
 
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {

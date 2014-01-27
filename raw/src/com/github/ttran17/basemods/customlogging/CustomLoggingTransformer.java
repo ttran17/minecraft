@@ -31,7 +31,8 @@ public class CustomLoggingTransformer extends AbstractBytecodeTransformer {
 	protected Map<IClassTransformer, String[]> getTransformers() throws IOException {
 		Map<IClassTransformer, String[]> transformers = new HashMap<>();
 		transformers.put(new CommandMessageTransformer(), new String[] {CommandMessageTransformer.CommandMessage_classname,"CommandMessage"});
-
+		transformers.put(new NetHandlerPlayServerTransformer(), new String[] {NetHandlerPlayServerTransformer.NetHandlerPlayServer_classname,"NetHandlerPlayServer"});
+		
 		return transformers;
 	}
 
