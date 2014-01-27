@@ -26,7 +26,7 @@ public class CustomLogging {
 		builder.append(message.getUnformattedText());
 		builder.append(": ");
 		
-		LOGGER.warn(builder.toString());
+		LOGGER.info(builder.toString());
 	}
 	
 	/**
@@ -42,6 +42,6 @@ public class CustomLogging {
 		builder.append(" ");
 		builder.append(message);
 		
-		LOGGER.warn(builder.toString());
+		LOGGER.info(builder.toString());
 	}
 }
