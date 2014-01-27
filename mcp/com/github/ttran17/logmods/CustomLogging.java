@@ -20,13 +20,13 @@ public class CustomLogging {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[CHAT] ");
 		builder.append(from.getUnformattedText());
-		builder.append(" whispers (chats) to ");
+		builder.append(" whispers to ");
 		builder.append(to.getUnformattedText());
 		builder.append(" ");
 		builder.append(message.getUnformattedText());
 		builder.append(": ");
 		
-		LOGGER.info(builder.toString());
+		LOGGER.warn(builder.toString());
 	}
 	
 	/**
@@ -42,6 +42,6 @@ public class CustomLogging {
 		builder.append(" ");
 		builder.append(message);
 		
-		LOGGER.info(builder.toString());
+		LOGGER.warn(builder.toString());
 	}
 }

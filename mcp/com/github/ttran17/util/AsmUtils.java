@@ -14,12 +14,12 @@ public class AsmUtils {
 	public static void main(String[] args) {
         ClassReader cr;
 		try {
-			String mcp = "mcp-1.6.4-811";
-			String base = "/home/ttran/Projects/" + mcp + "/reobf/minecraft/";
+			String mcp = "mcp903";
+			String base = "/home/ttran/Projects/" + mcp + "/reobf/minecraft_server/";
 			String base2 = "/home/ttran/Projects/" + mcp + "/bin/minecraft/";
 //			cr = new ClassReader(new FileInputStream(base + "com/github/ttran17/opmods/FinerOps.class"));
 //			cr = new ClassReader(new FileInputStream(base2 + "com/github/ttran17/opmods/FinerOps.class"));
-			cr = new ClassReader(new FileInputStream(base + "bfq.class"));
+			cr = new ClassReader(new FileInputStream(base + "mx.class"));
 //			cr = new ClassReader(new FileInputStream("axr.class"));
 	        cr.accept(new TraceClassVisitor(null, new ASMifier(), new PrintWriter(
 	                System.out)),  ClassReader.SKIP_DEBUG);
