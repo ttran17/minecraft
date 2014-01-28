@@ -18,7 +18,7 @@ public class CustomLogging {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[CHAT] ");
 		builder.append(from.c());
-		builder.append(" whispers (chats) to ");
+		builder.append(" whispers to ");
 		builder.append(to.c());
 		builder.append(" ");
 		builder.append(message.c());
