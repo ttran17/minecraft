@@ -3,22 +3,17 @@ package com.github.ttran17.vboxmods;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 public class VirtualBoxOpenGLCursor {
-
-	public static boolean virtualbox = false;
 	
-	public static void checkVirtualBox() {
-        if (GL11.glGetString(GL11.GL_VENDOR).trim().equalsIgnoreCase("humper") || GL11.glGetString(GL11.GL_RENDERER).trim().equalsIgnoreCase("chromium")) {  
-        	Minecraft.getMinecraft().getLogAgent().logInfo("OpenGL Vendor: " + GL11.glGetString(GL11.GL_VENDOR).trim());
-        	Minecraft.getMinecraft().getLogAgent().logInfo("OpenGL Renderer: " + GL11.glGetString(GL11.GL_RENDERER).trim());
-        	Minecraft.getMinecraft().getLogAgent().logInfo("Judging from OpenGl vendor or renderer: setting virtualbox = true!");
-        	virtualbox = true;
-        } 
-	}
+	private static final Logger LOGGER = LogManager.getLogger();
+
+	public static boolean virtualbox = true;
 	
     /**
      * Checks for an OpenGL error. If there is one, prints the error ID and error string.
@@ -29,12 +24,12 @@ public class VirtualBoxOpenGLCursor {
     {
 		int i = GL11.glGetError();
         
-        if (i != 0 && (!virtualbox || (virtualbox && i != 1280)))
+        if (i != 0 && i != 1280)
         {
             String s1 = GLU.gluErrorString(i);
-            Minecraft.getMinecraft().getLogAgent().logSevere("########## GL ERROR ##########");
-            Minecraft.getMinecraft().getLogAgent().logSevere("@ " + par1Str);
-            Minecraft.getMinecraft().getLogAgent().logSevere(i + ": " + s1);
+            LOGGER.warn("########## GL ERROR ##########");
+            LOGGER.warn("@ " + par1Str);
+            LOGGER.warn(i + ": " + s1);
         }
     }
 	

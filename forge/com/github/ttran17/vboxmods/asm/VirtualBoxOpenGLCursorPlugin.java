@@ -14,12 +14,6 @@ public class VirtualBoxOpenGLCursorPlugin implements IFMLLoadingPlugin {
 	public static File location;
 
 	@Override
-	public String[] getLibraryRequestClass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String[] getASMTransformerClass() {
 		return new String[]{
 				MinecraftTransformer.class.getName(),
@@ -34,14 +28,20 @@ public class VirtualBoxOpenGLCursorPlugin implements IFMLLoadingPlugin {
 	}
 
 	@Override
+	public void injectData(Map<String, Object> data) {
+		location = (File) data.get("coremodLocation");
+	}
+	
+	@Override
 	public String getSetupClass() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void injectData(Map<String, Object> data) {
-		location = (File) data.get("coremodLocation");
+	public String getAccessTransformerClass() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

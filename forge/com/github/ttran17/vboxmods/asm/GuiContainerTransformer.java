@@ -17,15 +17,14 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class GuiContainerTransformer implements IClassTransformer {
 	
-	public static final String className = "awy"; //net.minecraft.client.gui.inventory.GuiContainer
-	public static final String owner = GuiScreenTransformer.className;
-	public static final String name = GuiScreenTransformer.name;
-	public static final String desc = GuiScreenTransformer.desc;
+	public static final String GuiContainer_classname = "bdd"; //net.minecraft.client.gui.inventory.GuiContainer
+	
+	public static final String GuiContainer_zlevel = "e";
 
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
-		if (className.equals(name)) {
-			FMLRelaunchLog.log(Level.INFO,"Modifying " + name + " which is " + transformedName);
+		if (GuiContainer_classname.equals(name)) {
+			FMLRelaunchLog.info("Modifying %s which is %s", name, transformedName);
 			ClassReader cr = new ClassReader(bytes);
 			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 			GuiContainerVisitor gcv = new GuiContainerVisitor(Opcodes.ASM4, cw);
@@ -44,8 +43,8 @@ public class GuiContainerTransformer implements IClassTransformer {
 		@Override
 	    public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
 			MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-			if (GuiContainerTransformer.name.equals(name) && GuiContainerTransformer.desc.equals(desc)) {
-				FMLRelaunchLog.log(Level.FINE,"Visiting drawScreen ...");
+			if (GuiScreenTransformer.drawScreen_name.equals(name) && GuiScreenTransformer.drawScreen_desc.equals(desc)) {
+				FMLRelaunchLog.fine("Visiting drawScreen ...");
 				mv = new DrawScreenVisitor(Opcodes.ASM4, mv);
 			} 	
 			return mv;
@@ -59,18 +58,20 @@ public class GuiContainerTransformer implements IClassTransformer {
 			super(api, mv);
 		}
 		
-	    public void visitMethodInsn(int opcode, String owner, String name, String desc) {
-	    	if (opcode == INVOKESPECIAL && GuiContainerTransformer.owner.equals(owner) && GuiContainerTransformer.name.equals(name) && GuiContainerTransformer.desc.equals(desc)) {
-	    		/* Must pop params off the stack! */
-	    		// mv.visitVarInsn(ALOAD, 0);
-	    		// mv.visitVarInsn(ILOAD, 1);
-	    		// mv.visitVarInsn(ILOAD, 2);
-	    		// mv.visitVarInsn(FLOAD, 3);
-	    		mv.visitVarInsn(FSTORE, 3);
-	    		mv.visitVarInsn(ISTORE, 2);
-	    		mv.visitVarInsn(ISTORE, 1);
-	    		mv.visitVarInsn(ASTORE, 0);
-	    		return;
+		public void visitMethodInsn(int opcode, String owner, String name, String desc) {
+			if (opcode == INVOKESPECIAL && GuiScreenTransformer.GuiScreen_classname.equals(owner) && 
+					GuiScreenTransformer.drawScreen_name.equals(name) && 
+					GuiScreenTransformer.drawScreen_desc.equals(desc)) {
+				/* Must pop params off the stack! */
+				// mv.visitVarInsn(ALOAD, 0);
+				// mv.visitVarInsn(ILOAD, 1);
+				// mv.visitVarInsn(ILOAD, 2);
+				// mv.visitVarInsn(FLOAD, 3);
+				mv.visitVarInsn(FSTORE, 3);
+				mv.visitVarInsn(ISTORE, 2);
+				mv.visitVarInsn(ISTORE, 1);
+				mv.visitVarInsn(ASTORE, 0);
+				return;
 			}
 			mv.visitMethodInsn(opcode, owner, name, desc);
 		}
@@ -87,25 +88,25 @@ public class GuiContainerTransformer implements IClassTransformer {
 		 */
 	    public void visitInsn(int opcode) {
 	        if (opcode == RETURN) {
-	        	mv.visitIntInsn(SIPUSH, 2929);
-	        	mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/opengl/GL11", "glDisable", "(I)V");
-	        	mv.visitIntInsn(SIPUSH, 2896);
-	        	mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/opengl/GL11", "glDisable", "(I)V");
-	        	mv.visitVarInsn(ALOAD, 0);
-	        	mv.visitLdcInsn(new Float("300.0"));
-	        	mv.visitFieldInsn(PUTFIELD, "awy", "n", "F");
-	        	mv.visitVarInsn(ALOAD, 0);
-	        	mv.visitVarInsn(ILOAD, 1);
-	        	mv.visitVarInsn(ILOAD, 2);
-	        	mv.visitVarInsn(FLOAD, 3);
-	        	mv.visitMethodInsn(INVOKESPECIAL, "awe", "a", "(IIF)V");
-	        	mv.visitVarInsn(ALOAD, 0);
-	        	mv.visitInsn(FCONST_0);
-	        	mv.visitFieldInsn(PUTFIELD, "awy", "n", "F");
-	        	mv.visitIntInsn(SIPUSH, 2896);
-	        	mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/opengl/GL11", "glEnable", "(I)V");
-	        	mv.visitIntInsn(SIPUSH, 2929);
-	        	mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/opengl/GL11", "glEnable", "(I)V");
+				mv.visitIntInsn(SIPUSH, 2929);
+				mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/opengl/GL11", "glDisable", "(I)V");
+				mv.visitIntInsn(SIPUSH, 2896);
+				mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/opengl/GL11", "glDisable", "(I)V");
+				mv.visitVarInsn(ALOAD, 0);
+				mv.visitLdcInsn(new Float("300.0"));
+				mv.visitFieldInsn(PUTFIELD, GuiContainer_classname, GuiContainer_zlevel, "F");
+				mv.visitVarInsn(ALOAD, 0);
+				mv.visitVarInsn(ILOAD, 1);
+				mv.visitVarInsn(ILOAD, 2);
+				mv.visitVarInsn(FLOAD, 3);
+				mv.visitMethodInsn(INVOKESPECIAL, GuiScreenTransformer.GuiScreen_classname, GuiScreenTransformer.drawScreen_name, GuiScreenTransformer.drawScreen_desc);
+				mv.visitVarInsn(ALOAD, 0);
+				mv.visitInsn(FCONST_0);
+				mv.visitFieldInsn(PUTFIELD, GuiContainer_classname, GuiContainer_zlevel, "F");
+				mv.visitIntInsn(SIPUSH, 2896);
+				mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/opengl/GL11", "glEnable", "(I)V");
+				mv.visitIntInsn(SIPUSH, 2929);
+				mv.visitMethodInsn(INVOKESTATIC, "org/lwjgl/opengl/GL11", "glEnable", "(I)V");
 	        } 	        
 	        mv.visitInsn(opcode);	       
 	    }

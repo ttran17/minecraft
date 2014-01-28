@@ -16,14 +16,22 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class GuiScreenTransformer implements IClassTransformer {
 	
-	public static final String className = "awe"; //net.minecraft.client.gui.GuiScreen
-	public static final String name = "a"; //"drawScreen";
-	public static final String desc = "(IIF)V"; // drawScreen params
+	public static final String GuiScreen_classname = "bcd"; // net.minecraft.client.gui.GuiScreen
+	
+	public static final String Minecraft_ref = "k"; // Reference to Minecraft in GuiScreen
+	public static final String Minecraft_displayWidth = "d";
+	public static final String Minecraft_displayHeight = "e";
+
+	public static final String drawScreen_name = "a"; 
+	public static final String drawScreen_desc = "(IIF)V";
+
+	public static final String GuiScreen_width = "l";
+	public static final String GuiScreen_height = "m";
 
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
-		if (className.equals(name)) {
-			FMLRelaunchLog.log(Level.INFO,"Modifying " + name + " which is " + transformedName);
+		if (GuiScreen_classname.equals(name)) {
+			FMLRelaunchLog.info("Modifying %s which is %s", name, transformedName);
 			ClassReader cr = new ClassReader(bytes);
 			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
 			GuiScreenVisitor gsv = new GuiScreenVisitor(Opcodes.ASM4, cw);
@@ -42,8 +50,8 @@ public class GuiScreenTransformer implements IClassTransformer {
 		@Override
 	    public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
 			MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-			if (GuiScreenTransformer.name.equals(name) && GuiScreenTransformer.desc.equals(desc)) {
-				FMLRelaunchLog.log(Level.FINE,"Visiting drawScreen ...");
+			if (GuiScreenTransformer.drawScreen_name.equals(name) && GuiScreenTransformer.drawScreen_desc.equals(desc)) {
+				FMLRelaunchLog.fine("Visiting drawScreen ...");
 				mv = new DrawScreenVisitor(Opcodes.ASM4, mv);
 			}  			
 			return mv;
@@ -58,28 +66,21 @@ public class GuiScreenTransformer implements IClassTransformer {
 		
 		@Override
 		/*
-        if (com.github.ttran17.vboxmods.VirtualBoxOpenGLCursor.virtualbox) {
         	com.github.ttran17.vboxmods.VirtualBoxOpenGLCursor.drawCursor(this.width, this.height, this.mc.displayWidth, this.mc.displayHeight);
-        }
 		 */
 	    public void visitInsn(int opcode) {
 	        if (opcode == RETURN) {
-	        	mv.visitFieldInsn(GETSTATIC, "com/github/ttran17/vboxmods/VirtualBoxOpenGLCursor", "virtualbox", "Z");
-	        	Label l2 = new Label();
-	        	mv.visitJumpInsn(IFEQ, l2);
-	        	mv.visitVarInsn(ALOAD, 0);
-	        	mv.visitFieldInsn(GETFIELD, "awe", "g", "I");
-	        	mv.visitVarInsn(ALOAD, 0);
-	        	mv.visitFieldInsn(GETFIELD, "awe", "h", "I");
-	        	mv.visitVarInsn(ALOAD, 0);
-	        	mv.visitFieldInsn(GETFIELD, "awe", "f", "Latv;");
-	        	mv.visitFieldInsn(GETFIELD, "atv", "d", "I");
-	        	mv.visitVarInsn(ALOAD, 0);
-	        	mv.visitFieldInsn(GETFIELD, "awe", "f", "Latv;");
-	        	mv.visitFieldInsn(GETFIELD, "atv", "e", "I");
+				mv.visitVarInsn(ALOAD, 0);
+				mv.visitFieldInsn(GETFIELD, GuiScreen_classname, GuiScreen_width, "I");
+				mv.visitVarInsn(ALOAD, 0);
+				mv.visitFieldInsn(GETFIELD, GuiScreen_classname, GuiScreen_height, "I");
+				mv.visitVarInsn(ALOAD, 0);
+				mv.visitFieldInsn(GETFIELD, GuiScreen_classname, Minecraft_ref, "L"+MinecraftTransformer.Minecraft_classname+";");
+				mv.visitFieldInsn(GETFIELD, MinecraftTransformer.Minecraft_classname, Minecraft_displayWidth, "I");
+				mv.visitVarInsn(ALOAD, 0);
+				mv.visitFieldInsn(GETFIELD, GuiScreen_classname, Minecraft_ref, "L"+MinecraftTransformer.Minecraft_classname+";");
+				mv.visitFieldInsn(GETFIELD, MinecraftTransformer.Minecraft_classname, Minecraft_displayHeight, "I");
 	        	mv.visitMethodInsn(INVOKESTATIC, "com/github/ttran17/vboxmods/VirtualBoxOpenGLCursor", "drawCursor", "(IIII)V");
-	        	mv.visitLabel(l2);
-	        	mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
 	        } 	        
 	        mv.visitInsn(opcode);	       
 	    }

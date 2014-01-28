@@ -12,16 +12,16 @@ import cpw.mods.fml.common.versioning.VersionRange;
 
 public class VirtualBoxOpenGLCursorModContainer extends DummyModContainer {
 
-	private static final String mcVersionRange = "[1.6.4]";
+	private static final String mcVersionRange = "[1.7.2]";
 
 	public VirtualBoxOpenGLCursorModContainer() {
 		super(new ModMetadata());
 		ModMetadata meta = getMetadata();
 		meta.modId       = "VirtualBoxOpenGLCursor";
 		meta.name        = "VirtualBoxOpenGLCursor";
-		meta.version     = "1.6.4";
+		meta.version     = "1.7.2";
 		meta.authorList  = Arrays.asList("KidGoldenArms");
-		meta.description = "Auto-detect virtual box env & draw OpenGL cursor";
+		meta.description = "Draw OpenGL cursor";
 		meta.url         = "";
 	}
 
