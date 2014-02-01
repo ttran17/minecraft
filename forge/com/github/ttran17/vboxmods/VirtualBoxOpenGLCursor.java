@@ -12,8 +12,6 @@ import org.lwjgl.util.glu.GLU;
 public class VirtualBoxOpenGLCursor {
 	
 	private static final Logger LOGGER = LogManager.getLogger();
-
-	public static boolean virtualbox = true;
 	
     /**
      * Checks for an OpenGL error. If there is one, prints the error ID and error string.
