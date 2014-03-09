@@ -46,5 +46,50 @@ processResources
     }
 }
 
+import net.minecraftforge.gradle.user.UserConstants 
 
+ext.forgePlugin = getProject().getPlugins().getPlugin('forge')
+ext.forgeSrcPath = forgePlugin.delayedFile(UserConstants.FORGE_CACHE + UserConstants.FORGE_JAVADOCED).toString();
+ext.forgeJarPrefix = UserConstants.FORGE_RECOMP.substring(1,UserConstants.FORGE_RECOMP.length()-4).replace("{API_VERSION}", project.minecraft.apiVersion)
+
+eclipse.classpath.file {
+    whenMerged {  classpath -> 
+        classpath.entries.removeAll { it.path.contains(forgeJarPrefix) }
+    }
+}
+
+// For the folks using IntelliJ ...
+idea.module.iml {
+    whenMerged { module ->
+        module.dependencies.removeAll { it.getLibraryFile().getName().contains(forgeJarPrefix) }
+    }
+}
+
+task unzipForgeSrc(type: Copy) {
+    from(zipTree(forgeSrcPath))
+    into('src/main/java')
+    include('net/**')
+    include('cpw/**')
+    include('ibxm/**')
+    include('paulscode/**')
+}
+// Uncomment the line below to force an update
+unzipForgeSrc.outputs.upToDateWhen{ false }
+
+task unzipForgeRsrc(type: Copy) {
+    from(zipTree(forgeSrcPath))
+    into('src/main/resources')
+    exclude('net/**')
+    exclude('cpw/**')
+    exclude('ibxm/**')
+    exclude('paulscode/**')
+    exclude('*_at.cfg') // Otherwise later re-builds will look in dirtyArtifacts ...
+}
+// Uncomment the line below to force an update
+unzipForgeRsrc.outputs.upToDateWhen{ false }
+
+task setupEditableSource {
+  
+}
+setupEditableSource.dependsOn unzipForgeSrc, unzipForgeRsrc
 
