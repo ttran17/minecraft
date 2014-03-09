@@ -20,9 +20,12 @@ public class NetHandlerPlayServerTransformer implements IClassTransformer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 	
-	public static final String NetHandlerPlayServer_classname = "na"; // net.minecraft.network.NetHandlerPlayServer
+	public static final String NetHandlerPlayServer_classname = "ng"; // net.minecraft.network.NetHandlerPlayServer
 	
-	public static final String C01PacketChatMessage_classname = "ii"; // net.minecraft.network.play.client.C01PacketChatMessage
+	/**
+	 * Need to look for the method that has "chat.cannotSend"
+	 */
+	public static final String C01PacketChatMessage_classname = "io"; // net.minecraft.network.play.client.C01PacketChatMessage
 	
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
@@ -58,10 +61,17 @@ public class NetHandlerPlayServerTransformer implements IClassTransformer {
 	}
 
 	public class HandleC01PacketChatMessage extends MethodVisitor {
+		/**
+		 * To find the obfuscated classes checkClassInJar with class = NetHandlerPlayServer_classname obfuscated name
+		 */
 		
-		public final String owner = "lg"; //net.minecraft.server.management.ServerConfigurationManager
+		public final String owner = "lm"; //net.minecraft.server.management.ServerConfigurationManager
 		public final String name = "a"; // func_148544_a -- mcp903
 		public final String desc = "(L"+ CommandMessageTransformer.IChatComponent_classname + ";Z)V";
+		
+		/**
+		 * Look at the top of NetHandlerPlayServer_classname for playerEntity (should be field corresponding to entityPlayerMP)
+		 */
 		
 		public final String NetHandlerPlayServer_playerEntity = "b";
 
@@ -78,7 +88,7 @@ public class NetHandlerPlayServerTransformer implements IClassTransformer {
 	        if (opcode == INVOKEVIRTUAL && this.owner.equals(owner) && this.name.equals(name) && this.desc.equals(desc)) {
 	        	mv.visitVarInsn(ALOAD, 0);
 	        	mv.visitFieldInsn(GETFIELD, NetHandlerPlayServer_classname, NetHandlerPlayServer_playerEntity, "L"+ EntityPlayerMPTransformer.EntityPlayerMP_classname + ";");
-	        	mv.visitMethodInsn(INVOKEVIRTUAL, EntityPlayerMPTransformer.EntityPlayerMP_classname, EntityPlayerMPTransformer.getChatComponent, "()L" + CommandMessageTransformer.IChatComponent_classname + ";");
+	        	mv.visitMethodInsn(INVOKEVIRTUAL, EntityPlayerMPTransformer.EntityPlayerMP_classname, CommandMessageTransformer.ICommandSender_getChatComponent, "()L" + CommandMessageTransformer.IChatComponent_classname + ";");
 	        	mv.visitVarInsn(ALOAD, 2);
 	        	mv.visitMethodInsn(INVOKESTATIC, "CustomLogging", "logChat", "(L" + CommandMessageTransformer.IChatComponent_classname + ";Ljava/lang/String;)V");
 	        }

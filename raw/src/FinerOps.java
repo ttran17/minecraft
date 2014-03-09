@@ -18,14 +18,14 @@ public class FinerOps {
 	public static final Set<String> superOps = new HashSet<String>();
 	public static final Set<String> superOpCommands = new HashSet<String>();
 
-	public static ll dedicatedPlayerList;
+	public static lr dedicatedPlayerList;
 
 	/**
 	 * Called from DedicatedPlayerList constructor.
 	 * 
 	 * @param dedicatedServer
 	 */
-	public static void load(lm dedicatedServer) {
+	public static void load(ls dedicatedServer) {
 		LOGGER.warn("Configuring Finer Ops ...");
 		loadGodList(dedicatedServer);
 		loadSuperOpsList(dedicatedServer);
@@ -34,7 +34,7 @@ public class FinerOps {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void loadGodList(lm dedicatedServer)
+	private static void loadGodList(ls dedicatedServer)
 	{
 		try
 		{
@@ -58,7 +58,7 @@ public class FinerOps {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void loadSuperOpsList(lm dedicatedServer)
+	private static void loadSuperOpsList(ls dedicatedServer)
 	{
 		try
 		{
@@ -82,7 +82,7 @@ public class FinerOps {
 		}
 	}
 
-	private static void loadGodCommands(lm dedicatedServer)
+	private static void loadGodCommands(ls dedicatedServer)
 	{
 		if (gods.size() == 0) {
 			LOGGER.warn("No gods specified. God-commands will not be available! You probably don't want this!");
@@ -107,7 +107,7 @@ public class FinerOps {
 		}
 	}
 
-	private static void loadSuperOpCommands(lm dedicatedServer)
+	private static void loadSuperOpCommands(ls dedicatedServer)
 	{
 		if (superOps.size() == 0) {
 			LOGGER.warn("No super-ops specified. Super-op-commands will not be available! You probably don't want this!");
@@ -137,22 +137,22 @@ public class FinerOps {
 	 * <p>
 	 * Called from EntityPlayerMP.canCommandSenderUseCommand():
 	 * 
-	 * Also: ChatMessageComponent.func_111082_b("chat.type.text", new Object[] {this.playerEntity.getTranslatedEntityName(), var2})
+	 * This is some sort of ChatMessageComponent ...
 	 */
-	public static boolean canCommandSenderUseCommand(int par1, String par2Str, String username, mp entityPlayerMP)
+	public static boolean canCommandSenderUseCommand(int par1, String par2Str, String username, mv entityPlayerMP)
 	{
 		if (godCommands.contains(par2Str.toLowerCase()) && !gods.contains(username.toLowerCase())) {
 			String mesg = toWarning(par2Str, gods);
-			fi message = new fi("commands.generic.usage", new Object[] {new fi(mesg)});
+			fo message = new fo("commands.generic.usage", new Object[] {new fo(mesg)}); // ChatMessageComponent ?
 			message.b().a(a.m);
-			entityPlayerMP.b(message); // sendChatToPlayer
+			entityPlayerMP.b(message); // sendChatToPlayer ; around line 665 in entityPlayerMP
 			return false;
 		}
 		if (superOpCommands.contains(par2Str.toLowerCase()) && !superOps.contains(username.toLowerCase())) {
 			String mesg = toWarning(par2Str, superOps);
-			fi message = new fi("commands.generic.usage", new Object[] {new fi(mesg)});
+			fo message = new fo("commands.generic.usage", new Object[] {new fo(mesg)}); // ChatMessageComponent ?
 			message.b().a(a.m);
-			entityPlayerMP.b(message); // sendChatToPlayer
+			entityPlayerMP.b(message); // sendChatToPlayer ; around line 665 in entityPlayerMP
 			return false;
 		}  
 
@@ -167,12 +167,12 @@ public class FinerOps {
 	 * @param entityPlayerMP
 	 * @return
 	 */
-	public static boolean canCommandSenderUseCommand(int paramInt, String paramString, mp entityPlayerMP) {
-		if (("seed".equals(paramString)) && (!entityPlayerMP.b.V())) {
+	public static boolean canCommandSenderUseCommand(int paramInt, String paramString, mv entityPlayerMP) {
+		if (("seed".equals(paramString)) && (!entityPlayerMP.b.W())) {
 			return true;
 		}
 		if (("tell".equals(paramString)) || ("help".equals(paramString)) || ("me".equals(paramString))) return true;
-		if (entityPlayerMP.b.af().d(entityPlayerMP.b_())) {
+		if (entityPlayerMP.b.ag().d(entityPlayerMP.b_())) {
 			return entityPlayerMP.b.l() >= paramInt;
 		}
 		return false;

@@ -6,7 +6,7 @@ import com.github.ttran17.util.ModUtils;
 
 public class ClientDependencies {
 
-	public static final String client = "/home/ttran/vanilla-minecraft/versions/";
+	public static final String client = "/home/ttran/Minecraft/vanilla/versions/";
 	
 	public static final String dir = client + ModUtils.version + "/";
 	

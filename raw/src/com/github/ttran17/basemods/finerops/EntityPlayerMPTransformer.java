@@ -1,6 +1,7 @@
 package com.github.ttran17.basemods.finerops;
 
 import com.github.ttran17.basemods.IClassTransformer;
+import com.github.ttran17.basemods.customlogging.CommandMessageTransformer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,11 +17,7 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public static final String EntityPlayerMP_classname = "mp"; // net.minecraft.entity.player.EntityPlayerMP
-	
-	public static final String getUserName = "b_";
-	
-	public static final String getChatComponent = "c_";
+	public static final String EntityPlayerMP_classname = "mv"; // net.minecraft.entity.player.EntityPlayerMP
 
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
@@ -80,7 +77,7 @@ public class EntityPlayerMPTransformer implements IClassTransformer {
 			mv.visitVarInsn(ILOAD, 1);
 			mv.visitVarInsn(ALOAD, 2);
 			mv.visitVarInsn(ALOAD, 0);
-			mv.visitMethodInsn(INVOKEVIRTUAL, EntityPlayerMP_classname, getUserName, "()Ljava/lang/String;");
+			mv.visitMethodInsn(INVOKEVIRTUAL, EntityPlayerMP_classname, CommandMessageTransformer.ICommandSender_getUserName, "()Ljava/lang/String;");
 			mv.visitVarInsn(ALOAD, 0);
 			mv.visitMethodInsn(INVOKESTATIC, "FinerOps", "canCommandSenderUseCommand", "(ILjava/lang/String;Ljava/lang/String;L"+EntityPlayerMP_classname +";)Z");
 			mv.visitInsn(IRETURN);

@@ -27,6 +27,15 @@ public class CustomLoggingDependencies {
 
 	@Test
 	public void checkClassInJar() throws IOException {
-		AsmUtils.toTraceClassVisitor(AsmUtils.readClass(ServerDependencies.minecraftJar,"na"));
+		AsmUtils.toTraceClassVisitor(AsmUtils.readClass(ServerDependencies.minecraftJar,"ng"));
+	}
+	
+	@Test
+	public void findCommandMessage() {
+		List<Signature> signatures = new ArrayList<>();
+		signatures.add(new Signature("visitLdcInsn", new String[] {"commands.message.display.incoming"}));
+		signatures.add(new Signature("visitLdcInsn", new String[] {"commands.message.display.outgoing"}));
+		
+		ModUtils.findClass(minecraftJar, new ClassSignature(signatures));
 	}
 }

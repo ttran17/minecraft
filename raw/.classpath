@@ -26,12 +26,11 @@
 	<classpathentry kind="lib" path="libraries/org/lwjgl/lwjgl/lwjgl_util/2.9.0/lwjgl_util-2.9.0.jar"/>
 	<classpathentry kind="lib" path="libraries/org/lwjgl/lwjgl/lwjgl-platform/2.9.0/lwjgl-platform-2.9.0-natives-linux.jar"/>
 	<classpathentry kind="lib" path="libraries/net/java/jinput/jinput-platform/2.0.5/jinput-platform-2.0.5-natives-linux.jar"/>
-	<classpathentry kind="lib" path="libraries/tv/twitch/twitch/5.12/twitch-5.12.jar"/>
 	<classpathentry kind="lib" path="lib/argo-3.7.jar"/>
-	<classpathentry kind="lib" path="lib/asm-all-4.1-sources.jar"/>
-	<classpathentry kind="lib" path="lib/asm-all-4.1.jar" sourcepath="lib/asm-all-4.1-sources.jar"/>
 	<classpathentry kind="lib" path="lib/Minecraft-server-versioned.jar"/>
 	<classpathentry kind="lib" path="lib/Minecraft-versioned.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="libraries/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar"/>
+	<classpathentry kind="lib" path="libraries/tv/twitch/twitch/5.16/twitch-5.16.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

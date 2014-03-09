@@ -16,9 +16,9 @@ public class DedicatedPlayerListTransformer implements IClassTransformer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public static final String DedicatedPlayerList_classname = "ll"; // net.minecraft.server.dedicated.DedicatedPlayerList
+	public static final String DedicatedPlayerList_classname = "lr"; // net.minecraft.server.dedicated.DedicatedPlayerList
 	
-	public static final String DedicatedServer_classname = "lm";
+	public static final String DedicatedServer_classname = "ls";
 
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {

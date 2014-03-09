@@ -16,7 +16,7 @@ public class GuiContainerTransformer implements IClassTransformer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public static final String GuiContainer_classname = "bdn";
+	public static final String GuiContainer_classname = "bdq";
 	
 	public static final String GuiContainer_zlevel = "e";
 

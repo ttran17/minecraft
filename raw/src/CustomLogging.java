@@ -10,19 +10,18 @@ public class CustomLogging {
 	/** 
 	 * Called from net.minecraft.command.server.CommandMessage.processCommand()
 	 * 
-	 * @param from
-	 * @param to
-	 * @param message
+	 * @param from IChatComponent_classname
+	 * @param to IChatComponent_classname
+	 * @param message IChatComponent_classname
 	 */
-	public static void logWhisper(fa from, fa to, fa message) {
+	public static void logWhisper(fg from, fg to, fg message) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[CHAT] ");
 		builder.append(from.c());
 		builder.append(" whispers to ");
 		builder.append(to.c());
-		builder.append(" ");
-		builder.append(message.c());
 		builder.append(": ");
+		builder.append(message.c());
 		
 		LOGGER.info(builder.toString());
 	}
@@ -30,10 +29,10 @@ public class CustomLogging {
 	/**
 	 * Called from net.minecraft.network.NetHandlerPlayServer.func_147354_a()
 	 * 
-	 * @param from
+	 * @param from IChatComponent_classname
 	 * @param message
 	 */
-	public static void logChat(fa from, String message) {
+	public static void logChat(fg from, String message) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[CHAT] ");
 		builder.append(from.c());

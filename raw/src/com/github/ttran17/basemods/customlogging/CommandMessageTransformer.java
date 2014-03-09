@@ -23,11 +23,16 @@ public class CommandMessageTransformer implements IClassTransformer {
 
 	public static final String CommandMessage_classname = "az"; // net.minecraft.command.server.CommandMessage
 	
+	/**
+	 * Find EntityPlayerMP which implements this interface
+	 */
 	public static final String ICommandSender_classname = "ac"; // net.minecraft.command.ICommandSender
+	
+	public static final String ICommandSender_getUserName = "b_";
 	
 	public static final String ICommandSender_getChatComponent = "c_";
 	
-	public static final String IChatComponent_classname = "fa"; // net.minecraft.util.IChatComponent
+	public static final String IChatComponent_classname = "fg"; // net.minecraft.util.IChatComponent
 	
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
@@ -77,7 +82,7 @@ public class CommandMessageTransformer implements IClassTransformer {
 				mv.visitVarInsn(ALOAD, 1);
 				mv.visitMethodInsn(INVOKEINTERFACE, ICommandSender_classname, ICommandSender_getChatComponent, "()L" + IChatComponent_classname + ";");
 				mv.visitVarInsn(ALOAD, 3);
-				mv.visitMethodInsn(INVOKEVIRTUAL, EntityPlayerMPTransformer.EntityPlayerMP_classname, EntityPlayerMPTransformer.getChatComponent, "()L" + IChatComponent_classname + ";");
+				mv.visitMethodInsn(INVOKEVIRTUAL, EntityPlayerMPTransformer.EntityPlayerMP_classname, ICommandSender_getChatComponent, "()L" + IChatComponent_classname + ";");
 				mv.visitVarInsn(ALOAD, 4);
 				mv.visitMethodInsn(INVOKESTATIC, "CustomLogging", "logWhisper", "(L" + IChatComponent_classname + ";L" + IChatComponent_classname + ";L" + IChatComponent_classname + ";)V");
 			}                 

@@ -37,6 +37,23 @@ public class FinerOpsDependencies {
 	}
 	
 	@Test
+	public void findChatMessageComponent() {
+		List<Signature> signatures = new ArrayList<>();
+		signatures.add(new Signature("visitLdcInsn", new String[] {"TranslatableComponent"}));
+		signatures.add(new Signature("visitLdcInsn", new String[] {"siblings"}));
+
+		ModUtils.findClass(minecraftJar, new ClassSignature(signatures));
+	}
+	
+	@Test
+	public void findSendChatToPlayerExample() {
+		List<Signature> signatures = new ArrayList<>();
+		signatures.add(new Signature("visitLdcInsn", new String[] {"commands.generic.usage"}));
+
+		ModUtils.findClass(minecraftJar, new ClassSignature(signatures));
+	}
+	
+	@Test
 	public void checkClassInJar() throws IOException {
 		AsmUtils.toTraceClassVisitor(AsmUtils.readClass(ServerDependencies.minecraftJar,"mp"));
 	}
