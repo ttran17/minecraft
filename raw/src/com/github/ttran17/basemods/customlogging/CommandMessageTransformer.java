@@ -24,7 +24,7 @@ public class CommandMessageTransformer implements IClassTransformer {
 	public static final String CommandMessage_classname = "az"; // net.minecraft.command.server.CommandMessage
 	
 	/**
-	 * Find EntityPlayerMP which implements this interface
+	 * Find EntityPlayerMP which extends a class which implements this interface
 	 */
 	public static final String ICommandSender_classname = "ac"; // net.minecraft.command.ICommandSender
 	
@@ -32,7 +32,7 @@ public class CommandMessageTransformer implements IClassTransformer {
 	
 	public static final String ICommandSender_getChatComponent = "c_";
 	
-	public static final String IChatComponent_classname = "fg"; // net.minecraft.util.IChatComponent
+	public static final String IChatComponent_classname = "fj"; // net.minecraft.util.IChatComponent
 	
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {

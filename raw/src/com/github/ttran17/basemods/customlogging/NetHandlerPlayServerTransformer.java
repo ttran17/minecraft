@@ -25,7 +25,7 @@ public class NetHandlerPlayServerTransformer implements IClassTransformer {
 	/**
 	 * Need to look for the method that has "chat.cannotSend"
 	 */
-	public static final String C01PacketChatMessage_classname = "io"; // net.minecraft.network.play.client.C01PacketChatMessage
+	public static final String C01PacketChatMessage_classname = "ir"; // net.minecraft.network.play.client.C01PacketChatMessage
 	
 	@Override
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
@@ -65,7 +65,7 @@ public class NetHandlerPlayServerTransformer implements IClassTransformer {
 		 * To find the obfuscated classes checkClassInJar with class = NetHandlerPlayServer_classname obfuscated name
 		 */
 		
-		public final String owner = "lm"; //net.minecraft.server.management.ServerConfigurationManager
+		public final String owner = "oh"; //net.minecraft.server.management.ServerConfigurationManager
 		public final String name = "a"; // func_148544_a -- mcp903
 		public final String desc = "(L"+ CommandMessageTransformer.IChatComponent_classname + ";Z)V";
 		

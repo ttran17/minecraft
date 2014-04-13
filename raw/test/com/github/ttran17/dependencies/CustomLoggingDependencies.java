@@ -31,6 +31,12 @@ public class CustomLoggingDependencies {
 	}
 	
 	@Test
+	public void findIChatComponent() {
+		// Better to find EntityPlayerMP which extends a class which implements an interface
+		// which references this class
+	}
+	
+	@Test
 	public void findCommandMessage() {
 		List<Signature> signatures = new ArrayList<>();
 		signatures.add(new Signature("visitLdcInsn", new String[] {"commands.message.display.incoming"}));

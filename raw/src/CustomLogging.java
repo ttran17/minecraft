@@ -14,7 +14,7 @@ public class CustomLogging {
 	 * @param to IChatComponent_classname
 	 * @param message IChatComponent_classname
 	 */
-	public static void logWhisper(fg from, fg to, fg message) {
+	public static void logWhisper(fj from, fj to, fj message) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[CHAT] ");
 		builder.append(from.c());
@@ -32,7 +32,7 @@ public class CustomLogging {
 	 * @param from IChatComponent_classname
 	 * @param message
 	 */
-	public static void logChat(fg from, String message) {
+	public static void logChat(fj from, String message) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[CHAT] ");
 		builder.append(from.c());
