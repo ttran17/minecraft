@@ -20,8 +20,8 @@ public class FinerOpsDependencies {
 	@Test
 	public void findDedicatedPlayerListClass() {
 		List<Signature> signatures = new ArrayList<>();
-		signatures.add(new Signature("visitLdcInsn", new String[] {"ops.txt"}));
-		signatures.add(new Signature("visitLdcInsn", new String[] {"white-list.txt"}));
+		signatures.add(new Signature("visitLdcInsn", new String[] {"ops.json"}));
+		signatures.add(new Signature("visitLdcInsn", new String[] {"whitelist.json"}));
 
 		ModUtils.findClass(minecraftJar, new ClassSignature(signatures));
 	}
@@ -35,6 +35,16 @@ public class FinerOpsDependencies {
 
 		ModUtils.findClass(minecraftJar, new ClassSignature(signatures));
 	}
+	
+	@Test
+	public void findOpListEntry() {
+		List<Signature> signatures = new ArrayList<>();
+		signatures.add(new Signature("visitLdcInsn", new String[] {"\"uuid\""}));
+//		signatures.add(new Signature("visitLdcInsn", new String[] {"\"name\""}));
+//		signatures.add(new Signature("visitLdcInsn", new String[] {"\"level\""}));
+
+		ModUtils.findClass(minecraftJar, new ClassSignature(signatures));
+	}	
 	
 	@Test
 	public void findChatMessageComponent() {

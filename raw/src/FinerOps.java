@@ -13,12 +13,14 @@ public class FinerOps {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public static final Set<String> gods = new HashSet<String>();
+//	public static final Set<String> gods = new HashSet<String>();
 	public static final Set<String> godCommands = new HashSet<String>();
-	public static final Set<String> superOps = new HashSet<String>();
+//	public static final Set<String> superOps = new HashSet<String>();
 	public static final Set<String> superOpCommands = new HashSet<String>();
 
 	public static lr dedicatedPlayerList;
+	
+	public static final oi gods = new oi(null);
 
 	/**
 	 * Called from DedicatedPlayerList constructor.
@@ -143,14 +145,14 @@ public class FinerOps {
 	{
 		if (godCommands.contains(par2Str.toLowerCase()) && !gods.contains(username.toLowerCase())) {
 			String mesg = toWarning(par2Str, gods);
-			fo message = new fo("commands.generic.usage", new Object[] {new fo(mesg)}); // ChatMessageComponent ?
+			fr message = new fr("commands.generic.usage", new Object[] {new fr(mesg)}); // ChatMessageComponent ?
 			message.b().a(a.m);
 			entityPlayerMP.b(message); // sendChatToPlayer ; around line 665 in entityPlayerMP
 			return false;
 		}
 		if (superOpCommands.contains(par2Str.toLowerCase()) && !superOps.contains(username.toLowerCase())) {
 			String mesg = toWarning(par2Str, superOps);
-			fo message = new fo("commands.generic.usage", new Object[] {new fo(mesg)}); // ChatMessageComponent ?
+			fr message = new fr("commands.generic.usage", new Object[] {new fr(mesg)}); // ChatMessageComponent ?
 			message.b().a(a.m);
 			entityPlayerMP.b(message); // sendChatToPlayer ; around line 665 in entityPlayerMP
 			return false;
@@ -168,31 +170,26 @@ public class FinerOps {
 	 * @return
 	 */
 	public static boolean canCommandSenderUseCommand(int paramInt, String paramString, mv entityPlayerMP) {
-		if (("seed".equals(paramString)) && (!entityPlayerMP.b.W())) {
+		if (("seed".equals(paramString)) && (!entityPlayerMP.b.X())) {
 			return true;
 		}
 		if (("tell".equals(paramString)) || ("help".equals(paramString)) || ("me".equals(paramString))) return true;
-		if (entityPlayerMP.b.ag().d(entityPlayerMP.b_())) {
-			return entityPlayerMP.b.l() >= paramInt;
-		}
+	    if (entityPlayerMP.b.ah().g(entityPlayerMP.bI())) {
+	        oj localoj = (oj) entityPlayerMP.b.ah().m().b((Object) entityPlayerMP.bI());
+	        if (localoj != null) {
+	          return localoj.a() >= paramInt;
+	        }
+	        return entityPlayerMP.b.l() >= paramInt;
+	      }
 		return false;
 	}
 	
 	private static String toWarning(String command, Set<String> set) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("" + a.m);
-		builder.append("Sorry. On this server the command \"");
+		builder.append("Sorry. On this server you do not have the necessary privileges to use '");
 		builder.append(command);
-		builder.append("\" is restricted to ");
-		Iterator<String> iter = set.iterator();
-		while (iter.hasNext()) {   
-			builder.append((String) iter.next());
-			if (iter.hasNext()) {
-				builder.append(", ");
-			} else {
-				builder.append(".");
-			}
-		}
+		builder.append("'.");
 		return builder.toString();
 	}
 
