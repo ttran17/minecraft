@@ -16,7 +16,7 @@ public class MinecraftTransformer implements IClassTransformer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public static final String Minecraft_classname = "azl"; // Minecraft obfuscated class name
+	public static final String Minecraft_classname = "ban"; // Minecraft obfuscated class name
 	
 	public static final String checkGLError_name = "b"; //"checkGLError";
 	public static final String checkGLError_desc = "(Ljava/lang/String;)V";

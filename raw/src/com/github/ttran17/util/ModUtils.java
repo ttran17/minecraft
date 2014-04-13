@@ -18,7 +18,7 @@ import org.objectweb.asm.util.TraceClassVisitor;
 
 public class ModUtils {
 		
-	public static final String version = "1.7.5";
+	public static final String version = "1.7.8";
 	
 	public static void findClass(File minecraftJar, ClassSignature signature) {
 		try {
