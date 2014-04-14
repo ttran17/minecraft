@@ -14,13 +14,14 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import com.github.ttran17.basemods.IClassTransformer;
-import com.github.ttran17.basemods.finerops.EntityPlayerMPTransformer;
 
 public class NetHandlerPlayServerTransformer implements IClassTransformer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 	
 	public static final String NetHandlerPlayServer_classname = "ng"; // net.minecraft.network.NetHandlerPlayServer
+	
+	public static final String EntityPlayerMP_classname = "mv"; // net.minecraft.entity.player.EntityPlayerMP
 	
 	/**
 	 * Need to look for the method that has "chat.cannotSend"
@@ -87,8 +88,8 @@ public class NetHandlerPlayServerTransformer implements IClassTransformer {
 	        mv.visitMethodInsn(opcode, owner, name, desc);
 	        if (opcode == INVOKEVIRTUAL && this.owner.equals(owner) && this.name.equals(name) && this.desc.equals(desc)) {
 	        	mv.visitVarInsn(ALOAD, 0);
-	        	mv.visitFieldInsn(GETFIELD, NetHandlerPlayServer_classname, NetHandlerPlayServer_playerEntity, "L"+ EntityPlayerMPTransformer.EntityPlayerMP_classname + ";");
-	        	mv.visitMethodInsn(INVOKEVIRTUAL, EntityPlayerMPTransformer.EntityPlayerMP_classname, CommandMessageTransformer.ICommandSender_getChatComponent, "()L" + CommandMessageTransformer.IChatComponent_classname + ";");
+	        	mv.visitFieldInsn(GETFIELD, NetHandlerPlayServer_classname, NetHandlerPlayServer_playerEntity, "L"+ EntityPlayerMP_classname + ";");
+	        	mv.visitMethodInsn(INVOKEVIRTUAL, EntityPlayerMP_classname, CommandMessageTransformer.ICommandSender_getChatComponent, "()L" + CommandMessageTransformer.IChatComponent_classname + ";");
 	        	mv.visitVarInsn(ALOAD, 2);
 	        	mv.visitMethodInsn(INVOKESTATIC, "CustomLogging", "logChat", "(L" + CommandMessageTransformer.IChatComponent_classname + ";Ljava/lang/String;)V");
 	        }

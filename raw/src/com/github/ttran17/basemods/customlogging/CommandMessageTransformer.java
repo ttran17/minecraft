@@ -15,7 +15,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import com.github.ttran17.basemods.IClassTransformer;
-import com.github.ttran17.basemods.finerops.EntityPlayerMPTransformer;
 
 public class CommandMessageTransformer implements IClassTransformer {
 	
@@ -82,7 +81,7 @@ public class CommandMessageTransformer implements IClassTransformer {
 				mv.visitVarInsn(ALOAD, 1);
 				mv.visitMethodInsn(INVOKEINTERFACE, ICommandSender_classname, ICommandSender_getChatComponent, "()L" + IChatComponent_classname + ";");
 				mv.visitVarInsn(ALOAD, 3);
-				mv.visitMethodInsn(INVOKEVIRTUAL, EntityPlayerMPTransformer.EntityPlayerMP_classname, ICommandSender_getChatComponent, "()L" + IChatComponent_classname + ";");
+				mv.visitMethodInsn(INVOKEVIRTUAL, NetHandlerPlayServerTransformer.EntityPlayerMP_classname, ICommandSender_getChatComponent, "()L" + IChatComponent_classname + ";");
 				mv.visitVarInsn(ALOAD, 4);
 				mv.visitMethodInsn(INVOKESTATIC, "CustomLogging", "logWhisper", "(L" + IChatComponent_classname + ";L" + IChatComponent_classname + ";L" + IChatComponent_classname + ";)V");
 			}                 
