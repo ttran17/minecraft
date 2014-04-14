@@ -20,7 +20,8 @@ public class ModUtils {
 		
 	public static final String version = "1.7.8";
 	
-	public static void findClass(File minecraftJar, ClassSignature signature) {
+	public static String findClass(File minecraftJar, ClassSignature signature) {
+		String foundClass = null;
 		try {
 			ZipFile zip = new ZipFile(minecraftJar);
 			Enumeration<? extends ZipEntry> entries = zip.entries();
@@ -48,6 +49,7 @@ public class ModUtils {
 						int matches = signature.check(reader);
 						if (matches >= signature.getMinMatches()) {
 							System.out.println("Possible match: " + entry.getName());
+							foundClass = entry.getName();
 						}
 						reader.close();	
 						reader = null;										
@@ -75,7 +77,8 @@ public class ModUtils {
 			zip.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}		
+		return foundClass;
 	}
 
 }
