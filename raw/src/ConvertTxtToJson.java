@@ -25,7 +25,7 @@ public class ConvertTxtToJson {
 			System.exit(-1);
 		}
 		
-		File opTxtFile = new File("/home/ttran/Minecraft/vanilla-server/versions/1.7.8","ops.txt");
+		File opTxtFile = new File("ops.txt");
 		if (!opTxtFile.exists()) {
 			System.err.println("Cannot find ops.txt -- no conversion possible.");
 		} else {
@@ -45,7 +45,7 @@ public class ConvertTxtToJson {
 			}
 		}
 		
-		File whitelistTxtFile = new File("/home/ttran/Minecraft/vanilla-server/versions/1.7.8","white-list.txt");
+		File whitelistTxtFile = new File("white-list.txt");
 		if (!whitelistTxtFile.exists()) {
 			System.err.println("Cannot find white-list.txt -- no conversion possible.");
 		} else {
