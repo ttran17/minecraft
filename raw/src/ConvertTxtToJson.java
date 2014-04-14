@@ -21,7 +21,7 @@ public class ConvertTxtToJson {
 
 		if (args != null && args.length > 0) {
 			System.err.println("Too many arguments!");
-			System.err.println("Usage: java -jar foo.jar");
+			System.err.println("Usage: java -jar ConvertTxtToJson.jar");
 			System.exit(-1);
 		}
 		
