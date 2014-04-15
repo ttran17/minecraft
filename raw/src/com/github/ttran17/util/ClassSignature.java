@@ -38,11 +38,12 @@ public class ClassSignature {
 					int count = 0;
 					for (String value : signature.values) {
 						if (line.contains(value)) {
-							LOGGER.info(line);
+							// LOGGER.info(line);
 							count++;
 						}
 					}
 					if (count == signature.values.length) {
+						LOGGER.info(line);
 						matches++;
 					}
 				}

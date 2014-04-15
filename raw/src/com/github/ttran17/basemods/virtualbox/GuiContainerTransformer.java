@@ -8,18 +8,21 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import com.github.ttran17.basemods.IClassTransformer;
-
 import static org.objectweb.asm.Opcodes.*;
 
-public class GuiContainerTransformer implements IClassTransformer {
+public class GuiContainerTransformer extends GuiScreenTransformer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
-
-	public static final String GuiContainer_classname = "beu";
 	
 	public static final String GuiContainer_zlevel = "e";
 
+	public final String GuiContainer_classname;
+
+	public GuiContainerTransformer(String className, String guiScreenClassName, String minecraftClassName) {
+		super(guiScreenClassName, minecraftClassName);
+		this.GuiContainer_classname = className;
+	}
+	
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
 		if (GuiContainer_classname.equals(name)) {
 			LOGGER.info("Modifying " + name + " which is " + transformedName);
@@ -57,7 +60,7 @@ public class GuiContainerTransformer implements IClassTransformer {
 		}
 
 		public void visitMethodInsn(int opcode, String owner, String name, String desc) {
-			if (opcode == INVOKESPECIAL && GuiScreenTransformer.GuiScreen_classname.equals(owner) && 
+			if (opcode == INVOKESPECIAL && GuiScreen_classname.equals(owner) && 
 					GuiScreenTransformer.drawScreen_name.equals(name) && 
 					GuiScreenTransformer.drawScreen_desc.equals(desc)) {
 				/* Must pop params off the stack! */
@@ -97,7 +100,7 @@ public class GuiContainerTransformer implements IClassTransformer {
 				mv.visitVarInsn(ILOAD, 1);
 				mv.visitVarInsn(ILOAD, 2);
 				mv.visitVarInsn(FLOAD, 3);
-				mv.visitMethodInsn(INVOKESPECIAL, GuiScreenTransformer.GuiScreen_classname, GuiScreenTransformer.drawScreen_name, GuiScreenTransformer.drawScreen_desc);
+				mv.visitMethodInsn(INVOKESPECIAL, GuiScreen_classname, GuiScreenTransformer.drawScreen_name, GuiScreenTransformer.drawScreen_desc);
 				mv.visitVarInsn(ALOAD, 0);
 				mv.visitInsn(FCONST_0);
 				mv.visitFieldInsn(PUTFIELD, GuiContainer_classname, GuiContainer_zlevel, "F");

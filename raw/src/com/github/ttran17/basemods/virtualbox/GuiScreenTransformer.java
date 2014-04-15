@@ -15,8 +15,6 @@ import static org.objectweb.asm.Opcodes.*;
 public class GuiScreenTransformer implements IClassTransformer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
-
-	public static final String GuiScreen_classname = "bds"; // GuiScreen obfuscated class name
 	
 	public static final String Minecraft_ref = "k"; // Reference to Minecraft in GuiScreen
 	public static final String Minecraft_displayWidth = "d";
@@ -27,16 +25,23 @@ public class GuiScreenTransformer implements IClassTransformer {
 
 	public static final String GuiScreen_width = "l";
 	public static final String GuiScreen_height = "m";
+	
+	public final String GuiScreen_classname; // // GuiScreen obfuscated class name
+	public final String Minecraft_classname;
+	
+	public GuiScreenTransformer(String className, String minecraftClassName) {
+		this.GuiScreen_classname = className;
+		this.Minecraft_classname = minecraftClassName;
+	}
 
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
-		if (GuiScreen_classname.equals(name)) {
-			LOGGER.info("Modifying " + name + " which is " + transformedName);
-			ClassReader cr = new ClassReader(bytes);
-			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
-			GuiScreenVisitor gsv = new GuiScreenVisitor(Opcodes.ASM4, cw);
-			cr.accept(gsv, 0);
-			bytes = cw.toByteArray();
-		}
+		LOGGER.info("Modifying " + name + " which is " + transformedName);
+		ClassReader cr = new ClassReader(bytes);
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+		GuiScreenVisitor gsv = new GuiScreenVisitor(Opcodes.ASM4, cw);
+		cr.accept(gsv, 0);
+		bytes = cw.toByteArray();
+
 		return bytes;
 	}
 
@@ -74,11 +79,11 @@ public class GuiScreenTransformer implements IClassTransformer {
 				mv.visitVarInsn(ALOAD, 0);
 				mv.visitFieldInsn(GETFIELD, GuiScreen_classname, GuiScreen_height, "I");
 				mv.visitVarInsn(ALOAD, 0);
-				mv.visitFieldInsn(GETFIELD, GuiScreen_classname, Minecraft_ref, "L"+MinecraftTransformer.Minecraft_classname+";");
-				mv.visitFieldInsn(GETFIELD, MinecraftTransformer.Minecraft_classname, Minecraft_displayWidth, "I");
+				mv.visitFieldInsn(GETFIELD, GuiScreen_classname, Minecraft_ref, "L"+Minecraft_classname+";");
+				mv.visitFieldInsn(GETFIELD, Minecraft_classname, Minecraft_displayWidth, "I");
 				mv.visitVarInsn(ALOAD, 0);
-				mv.visitFieldInsn(GETFIELD, GuiScreen_classname, Minecraft_ref, "L"+MinecraftTransformer.Minecraft_classname+";");
-				mv.visitFieldInsn(GETFIELD, MinecraftTransformer.Minecraft_classname, Minecraft_displayHeight, "I");
+				mv.visitFieldInsn(GETFIELD, GuiScreen_classname, Minecraft_ref, "L"+Minecraft_classname+";");
+				mv.visitFieldInsn(GETFIELD, Minecraft_classname, Minecraft_displayHeight, "I");
 				mv.visitMethodInsn(INVOKESTATIC, "VirtualBoxOpenGLCursor", "drawCursor", "(IIII)V");
 			}                 
 			mv.visitInsn(opcode);               

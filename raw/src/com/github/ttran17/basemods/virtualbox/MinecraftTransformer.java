@@ -15,21 +15,24 @@ import com.github.ttran17.basemods.IClassTransformer;
 public class MinecraftTransformer implements IClassTransformer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
-
-	public static final String Minecraft_classname = "ban"; // Minecraft obfuscated class name
 	
 	public static final String checkGLError_name = "b"; //"checkGLError";
 	public static final String checkGLError_desc = "(Ljava/lang/String;)V";
 
+	public final String Minecraft_classname; // Minecraft obfuscated class name
+	
+	public MinecraftTransformer(String className) {
+		this.Minecraft_classname = className;
+	}
+	
 	public byte[] transform(String name, String transformedName, byte[] bytes) {
-		if (Minecraft_classname.equals(name)) {
-			LOGGER.info("Modifying " + name + " which is " + transformedName);
-			ClassReader cr = new ClassReader(bytes);
-			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-			MinecraftVisitor ma = new MinecraftVisitor(Opcodes.ASM4, cw);
-			cr.accept(ma, 0);
-			bytes = cw.toByteArray();
-		}
+		LOGGER.info("Modifying " + name + " which is " + transformedName);
+		ClassReader cr = new ClassReader(bytes);
+		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+		MinecraftVisitor ma = new MinecraftVisitor(Opcodes.ASM4, cw);
+		cr.accept(ma, 0);
+		bytes = cw.toByteArray();
+
 		return bytes;
 	}
 

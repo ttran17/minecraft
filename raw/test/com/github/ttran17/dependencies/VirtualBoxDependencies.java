@@ -34,6 +34,16 @@ public class VirtualBoxDependencies {
 		
 		// Even easier is to find GuiContainer class
 		// and then use fact that Guiscreen is superclass ...
+		List<Signature> signatures = new ArrayList<>();
+		// signatures.add(new Signature("visitField", new String[] {"(ACC_PUBLIC, \"l\", \"I\", null, null)"}));
+		// signatures.add(new Signature("visitField", new String[] {"(ACC_PUBLIC, \"m\", \"I\", null, null)"}));
+		// signatures.add(new Signature("visitField", new String[] {"(ACC_PROTECTED, \"n\", \"Ljava/util/List;\", null, null)"}));
+		// signatures.add(new Signature("visitField", new String[] {"(ACC_PROTECTED, \"o\", \"Ljava/util/List;\", null, null)"}));
+		// signatures.add(new Signature("visitMethod", new String[] {"(ACC_PUBLIC, \"b\", \"(I)V\", null, null)"}));
+		signatures.add(new Signature("visitLdcInsn", new String[] {"new Integer(-1072689136)"}));
+		signatures.add(new Signature("visitLdcInsn", new String[] {"new Integer(-804253680)"}));
+		
+		ModUtils.findClass(minecraftJar, new ClassSignature(signatures));
 	}
 	
 	@Test
@@ -49,5 +59,10 @@ public class VirtualBoxDependencies {
 		// Easier to find this by comparing instance variables in current version 
 		// of found classes ... either Minecraft.class or GuiScreen.class contains
 		// references to Tessellator.class
+		
+		List<Signature> signatures = new ArrayList<>();
+		signatures.add(new Signature("visitLdcInsn", new String[] {"Already tesselating!"}));
+
+		ModUtils.findClass(minecraftJar, new ClassSignature(signatures));
 	}
 }

@@ -9,7 +9,7 @@ import com.github.ttran17.util.AsmUtils;
 public class CheckAsm {
 	@Test
 	public void checkClassInJar() throws IOException {
-		AsmUtils.toTraceClassVisitor(AsmUtils.readClass(ServerDependencies.minecraftJar,"cc"));
+		AsmUtils.toTraceClassVisitor(AsmUtils.readClass(ClientDependencies.minecraftJar,"bot"));
 	}
 	
 	@Test

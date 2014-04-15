@@ -30,8 +30,11 @@ public class FinerOpsTransformer extends AbstractBytecodeTransformer {
 	public static void main(String[] args) throws IOException {
 		LOGGER.info("Running " + FinerOpsTransformer.class.getSimpleName() + " for version " + ModUtils.version);
 		
-		new FinerOpsTransformer();
+		(new FinerOpsTransformer()).transform();
 	}
+	
+	private final Map<String,Integer> commandLevels = new TreeMap<>();
+	private final Map<String,Integer> commandLevelInsertions = new TreeMap<>();
 	
 	protected File getMinecraftJar() {
 		return ServerDependencies.minecraftJar;
@@ -44,9 +47,8 @@ public class FinerOpsTransformer extends AbstractBytecodeTransformer {
 		return ModUtils.findClass(minecraftJar, new ClassSignature(signatures));
 	}
 	
-	public Map<IClassTransformer, String[]> getTransformers() throws IOException {
-		Map<String,Integer> commandLevels = new TreeMap<>();
-		
+	@Override
+	protected void init() {
 		commandLevels.put("whitelist", 6);
 		commandLevels.put("ban", 6);
 		commandLevels.put("banip", 6);
@@ -57,7 +59,14 @@ public class FinerOpsTransformer extends AbstractBytecodeTransformer {
 		commandLevels.put("op", 5);
 		commandLevels.put("deop", 5);
 		commandLevels.put("kick", 5);
-
+		
+		commandLevelInsertions.put("save", 6);
+		commandLevelInsertions.put("save-on", 6);
+		commandLevelInsertions.put("save-off", 6);
+		commandLevelInsertions.put("stop", 6);
+	}
+	
+	public Map<IClassTransformer, String[]> getTransformers() throws IOException {
 		Map<IClassTransformer, String[]> transformers = new HashMap<>();
 		
 		for (String key : commandLevels.keySet()) {
@@ -73,15 +82,9 @@ public class FinerOpsTransformer extends AbstractBytecodeTransformer {
 			String uniqueClassName = className.get(0).replace(".class","");
 			transformers.put(new CommandLevelTransformer(value.intValue()), new String[] {uniqueClassName, key});
 		}		
-
-		commandLevels.clear();
-		commandLevels.put("save", 6);
-		commandLevels.put("save-on", 6);
-		commandLevels.put("save-off", 6);
-		commandLevels.put("stop", 6);
 		
-		for (String key : commandLevels.keySet()) {
-			Integer value = commandLevels.get(key);
+		for (String key : commandLevelInsertions.keySet()) {
+			Integer value = commandLevelInsertions.get(key);
 			List<String> className = findCommands(key);
 			if (className.size() == 0) {
 				LOGGER.fatal("Could not find class for: " + key);

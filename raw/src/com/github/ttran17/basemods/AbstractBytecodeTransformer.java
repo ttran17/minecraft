@@ -27,16 +27,15 @@ public abstract class AbstractBytecodeTransformer {
 	
 	public AbstractBytecodeTransformer() {
 		this.minecraftJar = getMinecraftJar();
-		
-		try {
-			transform();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
+	
+	protected void init() {
+		
+	};
 
 	public void transform() throws ZipException, IOException {
+		init();
+		
 		Map<IClassTransformer, String[]> transformers = getTransformers();
 
 		for (IClassTransformer transformer : transformers.keySet()) {
@@ -57,7 +56,9 @@ public abstract class AbstractBytecodeTransformer {
 		ZipFile zip = new ZipFile(minecraftJar);
 		ZipEntry entry = zip.getEntry(name + ".class");
 		if (entry == null) {
-			LOGGER.error(name + " not found at " + minecraftJar.getName());
+			zip.close();
+			LOGGER.fatal(name + " not found at " + minecraftJar.getName());
+			throw new IllegalStateException();
 		} else {
 			DataInputStream zin = new DataInputStream(zip.getInputStream(entry));
 			bytes = new byte[(int) entry.getSize()];
