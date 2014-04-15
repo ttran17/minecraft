@@ -28,7 +28,7 @@ public class FinerOpsTransformer extends AbstractBytecodeTransformer {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public static void main(String[] args) throws IOException {
-		LOGGER.info("Running " + FinerOpsTransformer.class.getSimpleName());
+		LOGGER.info("Running " + FinerOpsTransformer.class.getSimpleName() + " for version " + ModUtils.version);
 		
 		new FinerOpsTransformer();
 	}
@@ -37,7 +37,7 @@ public class FinerOpsTransformer extends AbstractBytecodeTransformer {
 		return ServerDependencies.minecraftJar;
 	}
 
-	private String findCommands(String command) {
+	private List<String> findCommands(String command) {
 		List<Signature> signatures = new ArrayList<>();
 		signatures.add(new Signature("visitLdcInsn", new String[] {"commands." + command + ".usage"}));
 
@@ -62,12 +62,16 @@ public class FinerOpsTransformer extends AbstractBytecodeTransformer {
 		
 		for (String key : commandLevels.keySet()) {
 			Integer value = commandLevels.get(key);
-			String className = findCommands(key).replace(".class", "");
-			if (className == null) {
-				LOGGER.fatal("Could not find: " + key);
-				System.exit(-1);
+			List<String> className = findCommands(key);
+			if (className.size() == 0) {
+				LOGGER.fatal("Could not find class for: " + key);
+				throw new IllegalStateException();
+			} else if (className.size() > 1) {
+				LOGGER.fatal("Found more than one class for: " + key);
+				throw new IllegalStateException();
 			}
-			transformers.put(new CommandLevelTransformer(value.intValue()), new String[] {className, key});
+			String uniqueClassName = className.get(0).replace(".class","");
+			transformers.put(new CommandLevelTransformer(value.intValue()), new String[] {uniqueClassName, key});
 		}		
 
 		commandLevels.clear();
@@ -78,12 +82,16 @@ public class FinerOpsTransformer extends AbstractBytecodeTransformer {
 		
 		for (String key : commandLevels.keySet()) {
 			Integer value = commandLevels.get(key);
-			String className = findCommands(key).replace(".class", "");
-			if (className == null) {
-				LOGGER.fatal("Could not find: " + key);
-				System.exit(-1);
+			List<String> className = findCommands(key);
+			if (className.size() == 0) {
+				LOGGER.fatal("Could not find class for: " + key);
+				throw new IllegalStateException();
+			} else if (className.size() > 1) {
+				LOGGER.fatal("Found more than one class for: " + key);
+				throw new IllegalStateException();
 			}
-			transformers.put(new CommandLevelInsertionTransformer(value.intValue()), new String[] {className, key});
+			String uniqueClassName = className.get(0).replace(".class","");
+			transformers.put(new CommandLevelInsertionTransformer(value.intValue()), new String[] {uniqueClassName, key});
 		}	
 		
 		return transformers;

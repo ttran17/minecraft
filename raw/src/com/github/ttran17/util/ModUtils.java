@@ -8,20 +8,26 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.util.ASMifier;
 import org.objectweb.asm.util.TraceClassVisitor;
 
 public class ModUtils {
-		
-	public static final String version = "1.7.8";
 	
-	public static String findClass(File minecraftJar, ClassSignature signature) {
-		String foundClass = null;
+	private static final Logger LOGGER = LogManager.getLogger();
+		
+	public static final String version = "1.7.9";
+	
+	public static List<String> findClass(File minecraftJar, ClassSignature signature) {
+		List<String> possibleMatches = new ArrayList<>();
 		try {
 			ZipFile zip = new ZipFile(minecraftJar);
 			Enumeration<? extends ZipEntry> entries = zip.entries();
@@ -48,8 +54,8 @@ public class ModUtils {
 						reader = new BufferedReader(new FileReader(new File("tmp")));
 						int matches = signature.check(reader);
 						if (matches >= signature.getMinMatches()) {
-							System.out.println("Possible match: " + entry.getName());
-							foundClass = entry.getName();
+							LOGGER.info("Possible match: " + entry.getName());
+							possibleMatches.add(entry.getName());
 						}
 						reader.close();	
 						reader = null;										
@@ -78,7 +84,7 @@ public class ModUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
-		return foundClass;
+		return possibleMatches;
 	}
 
 }

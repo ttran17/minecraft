@@ -4,7 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ClassSignature {
+	
+	private static final Logger LOGGER = LogManager.getLogger();
 	
 	private final List<Signature> signatures;
 	
@@ -33,7 +38,7 @@ public class ClassSignature {
 					int count = 0;
 					for (String value : signature.values) {
 						if (line.contains(value)) {
-							System.out.println(line);
+							LOGGER.info(line);
 							count++;
 						}
 					}
@@ -43,28 +48,6 @@ public class ClassSignature {
 				}
 			}
 			line = reader.readLine();
-		}		
-		return matches;
-	}
-	
-	public int check(List<Object> input) throws IOException {
-		int matches = 0;
-		for (Object obj : input) {
-			for (Signature signature : signatures) {
-				String line = (String) obj;
-				if (line.contains(signature.key)) {
-					int count = 0;
-					for (String value : signature.values) {
-						if (line.contains(value)) {
-							System.out.println(line);
-							count++;
-						}
-					}
-					if (count == signature.values.length) {
-						matches++;
-					}
-				}
-			}
 		}		
 		return matches;
 	}

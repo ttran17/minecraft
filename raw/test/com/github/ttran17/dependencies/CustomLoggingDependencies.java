@@ -37,6 +37,16 @@ public class CustomLoggingDependencies {
 	}
 	
 	@Test
+	public void findEntityPlayerMPClass() {
+		List<Signature> signatures = new ArrayList<>();
+		signatures.add(new Signature("visitLdcInsn", new String[] {"\"tell\""}));
+		signatures.add(new Signature("visitLdcInsn", new String[] {"\"help\""}));
+		signatures.add(new Signature("visitLdcInsn", new String[] {"\"me\""}));
+
+		ModUtils.findClass(minecraftJar, new ClassSignature(signatures));
+	}
+	
+	@Test
 	public void findCommandMessage() {
 		List<Signature> signatures = new ArrayList<>();
 		signatures.add(new Signature("visitLdcInsn", new String[] {"commands.message.display.incoming"}));
