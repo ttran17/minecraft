@@ -44,6 +44,8 @@ public class VboxOpenGLTransformer extends AbstractBytecodeTransformer {
 	private final String GuiContainer = "GuiContainer";
 	private final String Tessellator = "Tessellator";
 	
+	private final boolean transformDrawCursor = false;
+	
 	protected File getMinecraftJar() {
 		return ClientDependencies.minecraftJar;
 	}
@@ -74,7 +76,7 @@ public class VboxOpenGLTransformer extends AbstractBytecodeTransformer {
 		
 		{
 			List<Signature> signatures = new ArrayList<>();
-			signatures.add(new Signature("visitLdcInsn", new String[] {"Already tesselating!"}));
+			signatures.add(new Signature("visitLdcInsn", new String[] {"Already building!"}));
 
 			signatureMap.put(Tessellator, signatures);
 		}
@@ -83,6 +85,11 @@ public class VboxOpenGLTransformer extends AbstractBytecodeTransformer {
 	@Override
 	public void transform() throws ZipException, IOException {
 		super.transform();
+		
+		if (!transformDrawCursor) {
+			LOGGER.warn("Not transforming the drawCursor() code in VirtualBoxOpenGLCursor. You'll have to do it manually.");
+			return;
+		}
 		
 		String tessellatorClassName = findClass(Tessellator);
 		

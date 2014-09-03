@@ -16,7 +16,7 @@ public class GuiScreenTransformer implements IClassTransformer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 	
-	public static final String Minecraft_ref = "k"; // Reference to Minecraft in GuiScreen
+	public static final String Minecraft_ref = "j"; // Reference to Minecraft in GuiScreen
 	public static final String Minecraft_displayWidth = "d";
 	public static final String Minecraft_displayHeight = "e";
 

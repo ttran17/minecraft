@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -58,6 +59,15 @@ public class MinecraftTransformer implements IClassTransformer {
 		 */
 		public void newMethod(MethodVisitor mv) {
 			mv.visitCode();
+			
+			mv.visitVarInsn(ALOAD, 0);
+			mv.visitFieldInsn(GETFIELD, Minecraft_classname, "R", "Z");
+			Label l0 = new Label();
+			mv.visitJumpInsn(IFNE, l0);
+			mv.visitInsn(RETURN);
+			mv.visitLabel(l0);
+
+			mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
 			mv.visitVarInsn(ALOAD, 1);
 			mv.visitMethodInsn(INVOKESTATIC, "VirtualBoxOpenGLCursor", "checkGLError", "(Ljava/lang/String;)V");
 			mv.visitInsn(RETURN);

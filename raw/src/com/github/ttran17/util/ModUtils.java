@@ -24,7 +24,7 @@ public class ModUtils {
 	
 	private static final Logger LOGGER = LogManager.getLogger();
 		
-	public static final String version = "1.7.10";
+	public static final String version = "1.8";
 	
 	public static List<String> findClass(File minecraftJar, ClassSignature signature) {
 		List<String> possibleMatches = new ArrayList<>();

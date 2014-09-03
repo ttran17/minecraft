@@ -61,7 +61,15 @@ public class VirtualBoxDependencies {
 		// references to Tessellator.class
 		
 		List<Signature> signatures = new ArrayList<>();
-		signatures.add(new Signature("visitLdcInsn", new String[] {"Already tesselating!"}));
+		signatures.add(new Signature("visitLdcInsn", new String[] {"Already building!"}));
+
+		ModUtils.findClass(minecraftJar, new ClassSignature(signatures));
+	}
+	
+	@Test
+	public void findGL_BLEND() {
+		List<Signature> signatures = new ArrayList<>();
+		signatures.add(new Signature("visitIntInsn", new String[] {"SIPUSH","3042"}));
 
 		ModUtils.findClass(minecraftJar, new ClassSignature(signatures));
 	}

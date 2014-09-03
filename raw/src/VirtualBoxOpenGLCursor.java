@@ -21,7 +21,7 @@ public class VirtualBoxOpenGLCursor {
 	{
 		int i = GL11.glGetError();
 
-		if (i != 0 &&  i != 1280)
+		if (i != 0 &&  i != 1280 && i != 1282)
 		{
 			String s1 = GLU.gluErrorString(i);
 			LOGGER.error("########## GL ERROR ##########");
@@ -38,24 +38,24 @@ public class VirtualBoxOpenGLCursor {
 		int T = 1;
 		double H = 0.0D;
 
-        bmh tessellator = bmh.a; // tessellator instance
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+        civ tessellator = ckx.a().c(); // 1.8.x (?) tessellator instance
+		cjm.l(); // GL11.glEnable(GL11.GL_BLEND);
+		cjm.x(); // GL11.glDisable(GL11.GL_TEXTURE_2D);
+		cjm.b(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); // GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		cjm.c(0.0f, 0.0f, 1.0f, 1.0f);
 		tessellator.b(); // startDrawingQuads
 		// Draw the horizontal (counter-clockwise starting from 4th quadrant -- y is flipped!)
-		tessellator.a((double)x+L, (double)y-T, H); // addVertex
-		tessellator.a((double)x-L, (double)y-T, H);
-		tessellator.a((double)x-L, (double)y+T, H);
-		tessellator.a((double)x+L, (double)y+T, H);
+		tessellator.b((double)x+L, (double)y-T, H); // addVertex
+		tessellator.b((double)x-L, (double)y-T, H);
+		tessellator.b((double)x-L, (double)y+T, H);
+		tessellator.b((double)x+L, (double)y+T, H);
 		// Draw the vertical (counter-clockwise starting from 4th quadrant -- y is flipped!)
-		tessellator.a((double)x+T, (double)y-L, H);
-		tessellator.a((double)x-T, (double)y-L, H);
-		tessellator.a((double)x-T, (double)y+L, H);
-		tessellator.a((double)x+T, (double)y+L, H);
-		tessellator.a(); // draw
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_BLEND);        
+		tessellator.b((double)x+T, (double)y-L, H);
+		tessellator.b((double)x-T, (double)y-L, H);
+		tessellator.b((double)x-T, (double)y+L, H);
+		tessellator.b((double)x+T, (double)y+L, H);
+		ckx.a().b(); // draw
+		cjm.w(); // GL11.glEnable(GL11.GL_TEXTURE_2D);
+		cjm.k(); // GL11.glDisable(GL11.GL_BLEND);        
 	}
 }
