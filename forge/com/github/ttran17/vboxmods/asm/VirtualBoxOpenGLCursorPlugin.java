@@ -8,7 +8,7 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;;
 
 @TransformerExclusions(value={"com.github.ttran17.vboxmods.asm"})
-@MCVersion(value="1.7.2")
+@MCVersion(value="1.7.10")
 public class VirtualBoxOpenGLCursorPlugin implements IFMLLoadingPlugin {
 
 	public static File location;

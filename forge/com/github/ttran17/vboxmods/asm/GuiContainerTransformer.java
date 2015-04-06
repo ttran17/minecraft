@@ -17,7 +17,7 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class GuiContainerTransformer implements IClassTransformer {
 	
-	public static final String GuiContainer_classname = "bdd"; //net.minecraft.client.gui.inventory.GuiContainer
+	public static final String GuiContainer_classname = "bex"; //net.minecraft.client.gui.inventory.GuiContainer
 	
 	public static final String GuiContainer_zlevel = "e";
 

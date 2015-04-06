@@ -18,9 +18,9 @@ import cpw.mods.fml.relauncher.FMLRelaunchLog;
 
 public class MinecraftTransformer implements IClassTransformer {
 	
-	public static final String Minecraft_classname = "azd"; // net.minecraft.client.Minecraft
+	public static final String Minecraft_classname = "bao"; // net.minecraft.client.Minecraft
 	
-	public static final String checkGLError_name = "d"; //"checkGLError";
+	public static final String checkGLError_name = "b"; //"checkGLError";
 	public static final String checkGLError_desc = "(Ljava/lang/String;)V";
 	
 	@Override

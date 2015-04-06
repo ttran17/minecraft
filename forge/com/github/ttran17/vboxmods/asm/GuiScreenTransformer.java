@@ -16,7 +16,7 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class GuiScreenTransformer implements IClassTransformer {
 	
-	public static final String GuiScreen_classname = "bcd"; // net.minecraft.client.gui.GuiScreen
+	public static final String GuiScreen_classname = "bdw"; // net.minecraft.client.gui.GuiScreen
 	
 	public static final String Minecraft_ref = "k"; // Reference to Minecraft in GuiScreen
 	public static final String Minecraft_displayWidth = "d";
