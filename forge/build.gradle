@@ -11,19 +11,19 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.1-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
 }
 
 apply plugin: 'forge'
 
-version = "1.7.2"
+version = "1.7.10"
 group= "com.github.ttran17" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "vbox-opengl-cursor"
 
 minecraft {
-    version = "1.7.2-10.12.0.1019"
-    assetDir = "eclipse/assets"
+    version = "1.7.10-10.13.2.1291"
+    runDir = "eclipse"
 }
 jar {
     manifest {
@@ -46,11 +46,9 @@ processResources
     }
 }
 
-import net.minecraftforge.gradle.user.UserConstants 
-
-ext.forgePlugin = getProject().getPlugins().getPlugin('forge')
-ext.forgeSrcPath = forgePlugin.delayedFile(UserConstants.FORGE_CACHE + UserConstants.FORGE_JAVADOCED).toString();
-ext.forgeJarPrefix = UserConstants.FORGE_RECOMP.substring(1,UserConstants.FORGE_RECOMP.length()-4).replace("{API_VERSION}", project.minecraft.apiVersion)
+// See git for clues to remove hard-coded values in path (ttran) and prefix (1.7.10-10.13.2.1291)
+ext.forgeSrcPath = "/home/ttran/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.10-10.13.2.1291/forgeSrc-1.7.10-10.13.2.1291-sources.jar"
+ext.forgeJarPrefix = "forgeSrc-1.7.10-10.13.2.1291"
 
 eclipse.classpath.file {
     whenMerged {  classpath -> 
